@@ -1,0 +1,6 @@
+[package]
+name = "kyb_completeness_scan"
+type = "bin"
+authors = [""]
+
+[dependencies]

@@ -9,3 +9,5 @@ playwright-report
 test-results
 *.tsbuildinfo
 .DS_Store
+# Noir circuit build output (packages/vc-kit/circuits/*) — regenerate with `nargo compile`.
+target/

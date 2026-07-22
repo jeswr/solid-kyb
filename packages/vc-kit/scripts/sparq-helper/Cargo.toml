@@ -1,0 +1,33 @@
+# sm-5ogg vc-kit phase — native seed-time helper binary driving sparq's
+# `encode_int_literal` for the Tier A `kyb:ownershipPercentageBps` operand
+# anchor. NOT part of the pnpm/turbo build. Compiled on demand against a
+# LOCAL sparq checkout, located via the `.sparq` symlink `native.ts` creates
+# from the SPARQ_CHECKOUT environment variable. Nothing here reimplements
+# crypto: the term encoding comes from sparq's own crate (decision 0004/0012:
+# do NOT port sparq's hash/encoding primitives to JS).
+#
+# SCOPE: trimmed relative to the mortgage/lending showcases' helper — this
+# package's Tier B circuit needs no Poseidon2/Schnorr dual-sign or composite
+# (join/revoke/hidden-issuer) capability, so only `encode_int_literal` is
+# wired up here.
+[package]
+name = "kyb-sparq-seed-helper"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "UNLICENSED"
+
+# Standalone workspace: keep cargo from walking up into unrelated manifests.
+[workspace]
+exclude = [".sparq"]
+
+[dependencies]
+sparq-zk-compose = { path = ".sparq/crates/sparq-zk-compose" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Mirror the sparq workspace's [patch.crates-io] (see the mortgage/lending
+# showcases' own scripts/sparq-helper/Cargo.toml for why this is needed when
+# building from outside the sparq workspace).
+[patch.crates-io]
+spargebra = { path = ".sparq/vendor/spargebra" }

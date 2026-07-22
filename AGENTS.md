@@ -7,11 +7,43 @@
 
 ## What this is (this phase)
 
-**Foundation phase only**: monorepo scaffold + `packages/data-model` (the RDF layer).
-No apps exist yet. The eventual shape (next build phase) is a `create-solid-demo`-scaffolded
-walkthrough: a tour shell (`apps/tour`) rendering from one JSON document, plus one app per
-ecosystem seat (`vault`, `issuers`, `bank-onboarding`, `bank-credit`). Every branded surface
-will be a concept demonstration — all data simulated, no real PII, `noindex` everywhere.
+**Foundation + vc-kit phase**: monorepo scaffold, `packages/data-model` (the RDF layer) and
+`packages/vc-kit` (VC issue/verify/status/re-issue + the beneficial-ownership ZK prover,
+sm-5ogg). No apps exist yet. The eventual shape (next build phase) is a
+`create-solid-demo`-scaffolded walkthrough: a tour shell (`apps/tour`) rendering from one JSON
+document, plus one app per ecosystem seat (`vault`, `issuers`, `bank-onboarding`,
+`bank-credit`). Every branded surface will be a concept demonstration — all data simulated, no
+real PII, `noindex` everywhere.
+
+### packages/vc-kit — what's in it (sm-5ogg)
+
+- `src/issue.ts`/`verify.ts`/`reissue.ts`/`status.ts`/`credential.ts` — VC 2.0 issue (via
+  `@kyb/data-model`'s typed builders), fail-closed verify (shape + window + Bitstring status +
+  signature), decision-0007-style re-issue (same claims, fresh window, old index revoked), and
+  Bitstring Status List hosting. `eddsa-rdfc-2022` only, via the pinned `@jeswr/solid-vc`.
+- `src/zk/` — the ZK layer for design §4's predicate ("no undisclosed beneficial owner holds
+  >= 25%"): **Tier A** (`prover.ts`/`verifier.ts`'s `proveOwnerThreshold`/`verifyOwnerThreshold`)
+  is a live per-owner `ownershipPercentageBps >= 2500` proof over the sparq `filter_int_d4`
+  circuit family (`circuits/filter-int-d{1..4}.ts`, byte-identical artifacts to the
+  mortgage/lending showcases' own committed set). **Tier B**
+  (`proveCompleteness`/`verifyCompleteness`) is this package's OWN bespoke, project-authored
+  circuit (`circuits/kyb-completeness-scan-n8.ts` + its real Nargo source at
+  `circuits/kyb_completeness_scan/src/main.nr`) — compiled with the identical pinned toolchain,
+  but NOT a member of sparq's own `zk/compose` family (no local sparq checkout was available to
+  compile the design's `scan_k{1,2}_n{16,64}_r{4,8}` member). See the circuit file's PROVENANCE
+  header for the full scope-down rationale — this is flagged for lead review.
+- `src/zk/commitment.ts` — the Tier B owner-array commitment (Blake3, truncated to a BN254
+  field element), computable entirely in JS (no native bridge needed, unlike Tier A).
+- `src/seed-tooling/` — `mintOperandAnchors` equivalent (`anchors.ts`) for both ZK fields, plus
+  the native sparq `encode_int_literal` bridge (`native.ts` + `scripts/sparq-helper`) Tier A
+  anchors need — **gated on `SPARQ_CHECKOUT`, unbuilt/untested in this environment** (same
+  honest posture as the mortgage/lending showcases' own native bridges). Tier A tests instead
+  reuse GENUINE captured `filter_int_d4` fixtures from the sibling `jeswr/solid-lending` repo
+  (same checkout commit, same toolchain, same circuit bytecode) rather than fabricating values.
+- `test/` — 102 passing tests (1 skipped: the native-bridge integration test, gated on
+  `SPARQ_CHECKOUT`), including real end-to-end UltraHonk prove+verify for BOTH tiers and a full
+  forgeability-regression negative matrix (tampered anchors, stolen nonces, wrong fields/
+  subjects, an UNDISCLOSED >= 25% owner making the completeness proof UNSATISFIABLE, etc).
 
 ## Non-negotiable conventions
 

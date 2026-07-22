@@ -17,6 +17,7 @@ record (bead `sm-5ogg`).
 | Path | What |
 |---|---|
 | `packages/data-model` | Vocab (`vocab/kyb.ttl`), SHACL shapes, typed `@rdfjs/wrapper` accessors, and the Northwind Logistics LLC persona fixture |
+| `packages/vc-kit` | **securityCritical** — VC 2.0 issue/verify/status/re-issue (`eddsa-rdfc-2022`) for the three KYB credential types, plus the beneficial-ownership ZK prover: Tier A live per-owner `ownershipPercentageBps >= 2500` threshold proof (sparq `filter_int_d4`) and Tier B's own bespoke, live-provable `kyb_completeness_scan_n8` completeness circuit ("no undisclosed beneficial owner >= 25%"). See `packages/vc-kit/src/zk/circuits/kyb-completeness-scan-n8.ts`'s PROVENANCE header for the Tier B scope note. |
 | `packages/test-kit` | The dev/test Solid-server harness (`@jeswr/solid-server`, vendored) |
 | `vendor/` | Packed tarballs of the not-yet-npm-published `@jeswr/*` framework packages (pinned via `pnpm.overrides` `file:` entries) |
 | `scripts/` | `lint:iris` (every `https://` IRI must dereference) and `check:insignia` (banned-marks scan) gates |
