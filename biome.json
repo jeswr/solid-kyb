@@ -6,7 +6,12 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!apps/*/next-env.d.ts", "!apps/tour/content/walkthrough.json"]
+    "includes": [
+      "**",
+      "!apps/*/next-env.d.ts",
+      "!apps/tour/content/walkthrough.json",
+      "!apps/vault/content/walkthrough.json"
+    ]
   },
   "css": {
     "parser": {
