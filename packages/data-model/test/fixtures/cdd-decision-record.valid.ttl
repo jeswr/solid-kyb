@@ -1,0 +1,8 @@
+@prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+<https://bank-onboarding.example/decisions/northwind-1> a kyb:CddDecisionRecord;
+    kyb:cddDecisionStatus kyb:CddDecisionStatus-Opened;
+    kyb:cddCheckDate "2026-07-22"^^xsd:date;
+    kyb:checkedCredential <https://northwind.pod.example/kyb/credentials/org-identity>,
+        <https://northwind.pod.example/kyb/credentials/beneficial-ownership>.

@@ -1,0 +1,12 @@
+@prefix cred: <https://www.w3.org/2018/credentials#>.
+@prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+<https://northwind.pod.example/kyb/credentials/anchors/ownership-jordan> a cred:VerifiableCredential, kyb:ZkOperandAnchor;
+    cred:issuer <https://issuers.example/orgs/beneficial-ownership-registrar#id>;
+    cred:validFrom "2026-05-23T12:00:00.000Z"^^xsd:dateTime;
+    cred:credentialStatus <https://issuers.example/status/anchors#1>;
+    cred:credentialSubject <https://northwind.pod.example/profile/card#me>.
+<https://northwind.pod.example/profile/card#me>
+    kyb:field kyb:ownershipPercentageBps;
+    kyb:operandEnc "NOT-HEX-AT-ALL".

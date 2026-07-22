@@ -1,0 +1,141 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix fibo-be-oac-opty: <https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/> .
+@prefix fibo-be-le-lei: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/> .
+@prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#> .
+@prefix kybshape: <https://solid-kyb-vocab.vercel.app/kyb/shapes#> .
+
+# Shared support shapes referenced (sh:node) by the resource shapes. None
+# declares a target: they validate only where a resource shape points at
+# them. Shape identities live under the demo's own published-URL namespace
+# (design §3.5 / CLAUDE.md rule 3: no urn:example: placeholders, only real
+# namespaces we control).
+
+kybshape:PostalAddressShape
+  a sh:NodeShape ;
+  sh:closed true ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:hasValue schema:PostalAddress ;
+  ] ;
+  sh:property [
+    sh:path schema:streetAddress ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+  ] ;
+  sh:property [
+    sh:path schema:addressLocality ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+  ] ;
+  sh:property [
+    sh:path schema:addressRegion ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[A-Z]{2}$" ;
+    sh:message "addressRegion must be a two-letter US state code" ;
+  ] ;
+  sh:property [
+    sh:path schema:postalCode ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[0-9]{5}(-[0-9]{4})?$" ;
+    sh:message "postalCode must be a US ZIP or ZIP+4" ;
+  ] .
+
+# The disclosed ISO 17442 legal entity identifier node
+# (fibo-be-le-lei:LegalEntityIdentifier). kyb:isIllustrativeLei must be
+# `true` in this demo — no surface may render a value that could be mistaken
+# for a real GLEIF-issued LEI (design §7, §9 open question 3).
+kybshape:LegalEntityIdentifierShape
+  a sh:NodeShape ;
+  sh:closed true ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:hasValue fibo-be-le-lei:LegalEntityIdentifier ;
+  ] ;
+  sh:property [
+    sh:path schema:identifier ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[0-9A-Z]{18}[0-9]{2}$" ;
+    sh:message "the LEI must be the ISO 17442 lexical form: 18 alphanumeric characters plus a 2-digit numeric checksum" ;
+  ] ;
+  sh:property [
+    sh:path kyb:isIllustrativeLei ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean ;
+    sh:hasValue true ;
+    sh:message "isIllustrativeLei must be true: this demo never carries a real GLEIF-issued LEI" ;
+  ] .
+
+# One disclosed beneficial-ownership record (fibo-be-oac-opty:EntityOwnership).
+# hasOwningEntity range per FIBO's own restriction is cmns-org:LegalPerson;
+# the owner node is additionally typed fibo-be-oac-opty:EntityOwner and
+# schema:Person for display. hasOwnedEntity is an IRI reference to the
+# business's own WebID (no embedded node — the business's identity is
+# declared once, by the organisational-identity credential).
+kybshape:EntityOwnershipShape
+  a sh:NodeShape ;
+  sh:closed true ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:hasValue fibo-be-oac-opty:EntityOwnership ;
+  ] ;
+  sh:property [
+    sh:path fibo-be-oac-opty:hasOwningEntity ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:BlankNodeOrIRI ;
+    sh:node kybshape:EntityOwnerShape ;
+  ] ;
+  sh:property [
+    sh:path fibo-be-oac-opty:hasOwnedEntity ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "hasOwnedEntity must reference the owned business's own WebID" ;
+  ] ;
+  sh:property [
+    # Disclosed display percentage (design §3.4 binding table).
+    sh:path fibo-be-le-lei:hasOwnershipPercentage ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0.0 ;
+    sh:maxInclusive 100.0 ;
+  ] ;
+  sh:property [
+    # ZK field: 4-digit budget, sparq filter_int_d4 (scene-3 predicate:
+    # ownershipPercentageBps >= 2500, i.e. the CDD Rule's 25% threshold).
+    sh:path kyb:ownershipPercentageBps ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 10000 ;
+    sh:message "ownershipPercentageBps must fit the 4-digit ZK budget (0..10000 basis points)" ;
+  ] .
+
+kybshape:EntityOwnerShape
+  a sh:NodeShape ;
+  sh:closed true ;
+  sh:ignoredProperties ( rdf:type ) ;
+  sh:property [
+    sh:path schema:name ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:minLength 1 ;
+  ] .

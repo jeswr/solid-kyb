@@ -1,0 +1,41 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#> .
+@prefix kybshape: <https://solid-kyb-vocab.vercel.app/kyb/shapes#> .
+
+# design §3.3 row 4, `/kyb/decision`: a bank's own record that it satisfied
+# the FinCEN CDD Rule (31 CFR §1010.230) for this business customer.
+# Bank-written (lives in the bank's own system/pod, not the business vault);
+# not a W3C VC envelope in this demo (design §3.3 lists only status, check
+# date, and the checked-credential freshness trail — no issuer/holder
+# binding fields).
+kybshape:CddDecisionRecordShape
+  a sh:NodeShape ;
+  sh:targetClass kyb:CddDecisionRecord ;
+  sh:closed true ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:hasValue kyb:CddDecisionRecord ;
+  ] ;
+  sh:property [
+    sh:path kyb:cddDecisionStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:in ( kyb:CddDecisionStatus-Opened kyb:CddDecisionStatus-Declined kyb:CddDecisionStatus-PendingReview ) ;
+    sh:message "cddDecisionStatus must be one of the demo's three decision-status individuals" ;
+  ] ;
+  sh:property [
+    sh:path kyb:cddCheckDate ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:date ;
+  ] ;
+  sh:property [
+    # The freshness audit trail: which specific org-identity/BO credential
+    # VERSIONS (pod-resource IRIs) were checked.
+    sh:path kyb:checkedCredential ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] .

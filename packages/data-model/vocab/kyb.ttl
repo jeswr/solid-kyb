@@ -1,0 +1,162 @@
+# The KYB (business-onboarding) walkthrough's residue vocabulary — every term
+# the real, dereferenceable namespaces (FIBO Business Entities, GLEIF's own
+# RDF provenance annotations, schema.org, W3C VC 2.0, DPV, SKOS) do not
+# provide. Single source of truth: src/vocab/kyb.ts is GENERATED from this
+# file (node scripts/generate-vocab.mjs).
+#
+# NAMESPACE (design-of-record docs/research/kyb-demo-design.md §3.5, decision
+# 0010's exact pattern): a dedicated, tiny Vercel project — NOT the
+# non-dereferenceable `urn:example:` placeholder the lending demo shipped as a
+# bug. `https://solid-kyb-vocab.vercel.app/kyb#` is the real, permanent
+# namespace this demo controls. House rule: no `kyb:` IRI is minted into
+# committed RDF before this project is live — see the repo README/AGENTS.md
+# for the tracked follow-up to stand up the Vercel project (mirrors
+# solid-mortgage-vocab, already live at
+# https://solid-mortgage-vocab.vercel.app/mort#).
+#
+# GROUNDING: FIBO Business Entities (BE/LegalEntities/LEIEntities,
+# BE/LegalEntities/LegalPersons, BE/OwnershipAndControl/OwnershipParties,
+# BE/OwnershipAndControl/Executives — all `Release` maturity, dereference
+# 200 text/turtle) covers the domain directly; LEIEntities' own
+# cmns-av:adaptedFrom annotations cite GLEIF's LEI/Relationship-Record CDF and
+# ISO 17442/20275 as source, so the FIBO-BE <-> GLEIF binding is FIBO's own
+# stated provenance, not an analogy. Every class/property referenced from
+# fibo-be-le-lei:, fibo-be-le-lp:, fibo-be-oac-opty:, fibo-be-oac-exec: and
+# cmns-org:/cmns-id: below was fetched and confirmed to exist
+# (2026-07-22, `Accept: text/turtle`, final status 200 in every case).
+
+@prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dpv: <https://w3id.org/dpv#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://solid-kyb-vocab.vercel.app/kyb>
+  a owl:Ontology ;
+  rdfs:label "KYB business-onboarding walkthrough residue vocabulary" ;
+  rdfs:comment "Concept-demonstration vocabulary. All data simulated; no real PII; no real LEI issuance. Terms defined here are those FIBO Business Entities (BE/LegalEntities/LEIEntities, BE/LegalEntities/LegalPersons, BE/OwnershipAndControl/OwnershipParties, BE/OwnershipAndControl/Executives), schema.org, W3C VC 2.0, DPV and SKOS do not already provide." .
+
+### Credential classes (the W3C VC 2.0 envelope types; design §3.2)
+
+kyb:OrganisationalIdentityCredential a owl:Class ;
+  rdfs:label "organisational identity credential" ;
+  rdfs:comment "LEI-anchored organisational-identity VC issued by the GLEIF-modelled org-identity seat (scene 1): fibo-be-le-lei:LEIRegisteredEntity + fibo-be-le-lp:BusinessEntity, ISO 17442 LEI and ISO 20275 entity legal form. Holder-bound to the business's own WebID (the vault's pod holder)." .
+
+kyb:BeneficialOwnershipCredential a owl:Class ;
+  rdfs:label "beneficial ownership credential" ;
+  rdfs:comment "VC listing every disclosed beneficial owner's stake (fibo-be-oac-opty:EntityOwnership records) issued by the unbranded registry/FinCEN-BO-source-modelled seat (scene 1). Holder-bound to the business's own WebID. The ONLY ZK-participating KYB credential: kyb:ownershipPercentageBps is the ZK operand (§4)." .
+
+kyb:OfficerAuthorizationCredential a owl:Class ;
+  rdfs:label "officer authorization credential" ;
+  rdfs:comment "VC recording a signatory/officer's authority to bind the business (fibo-be-oac-exec:Signatory / CorporateOfficer — the vLEI OOR/ECR role-credential analogue), issued by the same GLEIF-modelled issuer surface as the organisational-identity credential. Holder-bound to the business's own WebID; the embedded officer node (kyb:hasAuthorizedOfficer) carries the individual's identity and fibo-be-oac-exec:hasSigningAuthorityFor back to the business." .
+
+### The ZK operand anchor (design §4; same pattern as the lending demo's
+### lend:ZkOperandAnchor, scoped to the one KYB ZK field)
+
+kyb:ZkOperandAnchor a owl:Class ;
+  rdfs:label "ZK operand anchor" ;
+  rdfs:comment "Issuer-signed binding of a hidden field's deterministic sparq term encoding (operand_enc). The Tier-A per-owner threshold proof (scene 3) verifies against this anchor; never ship a Tier-A surface without the anchor check." .
+
+### The bank-written CDD decision record (design §3.3's fourth shape,
+### `/kyb/decision`). Residue class: no FIBO status-record individuals were
+### found in the fetched BE modules for a bank's own compliance decision —
+### same gap the mortgage demo notes for `mort:decisionStatus`.
+
+kyb:CddDecisionRecord a owl:Class ;
+  rdfs:label "CDD decision record" ;
+  rdfs:comment "A bank's own record that it satisfied the FinCEN Customer Due Diligence Rule (31 CFR §1010.230) for this business customer: the decision status, the check date, and the specific credential versions checked (freshness audit trail). Bank-written; not itself a W3C VC in this demo." .
+
+### Support classes
+
+kyb:AuthorizedOfficer a owl:Class ;
+  rdfs:label "authorized officer" ;
+  rdfs:comment "The embedded officer/signatory node of an officer-authorization credential (fibo-be-oac-exec:Signatory, CorporateOfficer). Kept as a display-typed support node rather than reusing the credentialSubject IRI directly, since the credentialSubject stays holder-bound to the business's own WebID (house rule) while the officer is a distinct natural person." .
+
+### Controlled vocabularies
+
+kyb:EntityLegalFormScheme a skos:ConceptScheme ;
+  rdfs:label "entity legal form scheme (illustrative)" ;
+  rdfs:comment "Illustrative value space of fibo-be-le-lei:hasLegalForm, standing in for the real ISO 20275 Entity Legal Form (ELF) code list (GLEIF's own code list at https://www.gleif.org/en/about-lei/code-lists/iso-20275-entity-legal-forms-code-list) — the fetched FIBO BE modules define the EntityLegalFormScheme/EntityLegalForm CLASSES but not a ready ELF code-list of individuals, so this demo mints its own small illustrative set (LLC, Corp, LLP)." .
+
+kyb:EntityLegalForm-LLC a skos:Concept ;
+  skos:inScheme kyb:EntityLegalFormScheme ;
+  rdfs:label "limited liability company (illustrative)" ;
+  rdfs:comment "Stands in for the real ISO 20275 ELF code for a US limited liability company (the demo persona Northwind Logistics LLC's own legal form)." .
+
+kyb:EntityLegalForm-Corp a skos:Concept ;
+  skos:inScheme kyb:EntityLegalFormScheme ;
+  rdfs:label "corporation (illustrative)" ;
+  rdfs:comment "Stands in for the real ISO 20275 ELF code for a US corporation." .
+
+kyb:EntityLegalForm-LLP a skos:Concept ;
+  skos:inScheme kyb:EntityLegalFormScheme ;
+  rdfs:label "limited liability partnership (illustrative)" ;
+  rdfs:comment "Stands in for the real ISO 20275 ELF code for a US limited liability partnership." .
+
+kyb:CddDecisionStatusScheme a skos:ConceptScheme ;
+  rdfs:label "CDD decision status scheme" ;
+  rdfs:comment "Value space of kyb:cddDecisionStatus. No FIBO status individuals were found in the fetched BE modules for a bank's own CDD decision outcome (same gap pattern as the mortgage demo's mort:decisionStatus), so this demo mints its own three-value scheme." .
+
+kyb:CddDecisionStatus-Opened a skos:Concept ;
+  skos:inScheme kyb:CddDecisionStatusScheme ;
+  rdfs:label "opened" ;
+  rdfs:comment "The bank opened the account: the CDD Rule's identification and verification obligations were satisfied for this business customer." .
+
+kyb:CddDecisionStatus-Declined a skos:Concept ;
+  skos:inScheme kyb:CddDecisionStatusScheme ;
+  rdfs:label "declined" ;
+  rdfs:comment "The bank declined to open the account." .
+
+kyb:CddDecisionStatus-PendingReview a skos:Concept ;
+  skos:inScheme kyb:CddDecisionStatusScheme ;
+  rdfs:label "pending review" ;
+  rdfs:comment "The bank's CDD check is still in progress." .
+
+### DPV purpose (design §3.5's known-residue candidate: DPV core has no
+### KYB/CDD-specific purpose concept, the same gap vocab.md §3.4 notes for
+### mortgage underwriting)
+
+kyb:BeneficialOwnershipVerificationPurpose a dpv:Purpose, skos:Concept ;
+  rdfs:label "beneficial ownership verification purpose" ;
+  rdfs:comment "The DPV purpose a consent receipt cites when a business grants a relying party (bank, registrar) access to its beneficial-ownership data under the FinCEN CDD Rule (31 CFR §1010.230). Defined here for the app-level consent ledger the vault app will use in a later build phase; not wired into a data-model shape in this foundation phase." .
+
+### Object properties
+
+kyb:hasOwnershipRecord a owl:ObjectProperty ;
+  rdfs:label "has ownership record" ;
+  rdfs:comment "Links a beneficial-ownership credential's subject (the business) to one disclosed fibo-be-oac-opty:EntityOwnership record. Residue: FIBO's OwnershipParties module defines the EntityOwnership class and its hasOwningEntity/hasOwnedEntity edges, but not a property for a credential subject to aggregate its full disclosed set." .
+
+kyb:hasAuthorizedOfficer a owl:ObjectProperty ;
+  rdfs:label "has authorized officer" ;
+  rdfs:comment "Links an officer-authorization credential's subject (the business's own WebID, holder-bound) to the embedded kyb:AuthorizedOfficer node describing the individual signatory (fibo-be-oac-exec:hasSigningAuthorityFor points back from that node to the business)." .
+
+kyb:checkedCredential a owl:ObjectProperty ;
+  rdfs:label "checked credential" ;
+  rdfs:comment "Links a kyb:CddDecisionRecord to one pod-resource IRI of a specific organisational-identity or beneficial-ownership credential VERSION the bank checked — the freshness audit trail design §3.3 requires." .
+
+kyb:field a owl:ObjectProperty ;
+  rdfs:label "anchored field" ;
+  rdfs:comment "The hidden field IRI a ZK operand anchor binds. In this demo the only ZK-provable KYB field is kyb:ownershipPercentageBps (sh:in-constrained in the shape)." .
+
+### Datatype properties
+
+kyb:ownershipPercentageBps a owl:DatatypeProperty ;
+  rdfs:label "ownership percentage (basis points)" ;
+  rdfs:comment "ZK-provable scaled-unit companion to the disclosed fibo-be-le-lei:hasOwnershipPercentage (xsd:decimal): the same ownership share as an xsd:integer in basis points, 0..10000 (100.00% = 10000). ZK field: 4-digit budget, sparq filter_int_d4; scene-3 predicate ownershipPercentageBps >= 2500 (the CDD Rule's 25% beneficial-owner threshold), same disclosed-plus-ZK-scaled-companion pattern as vocab.md §6's mort:*Cents fields." .
+
+kyb:isIllustrativeLei a owl:DatatypeProperty ;
+  rdfs:label "is illustrative LEI" ;
+  rdfs:comment "Boolean marker on a fibo-be-le-lei:LegalEntityIdentifier node, always true in this demo: the identifier is an ISO-17442-shaped, checksum-valid (ISO 7064 MOD 97-10) illustrative placeholder using the unassigned LOU prefix 9999 — never a GLEIF-issued LEI. Resolves design §9 open question 3 (fictional-LEI representation)." .
+
+kyb:cddDecisionStatus a owl:ObjectProperty ;
+  rdfs:label "CDD decision status" ;
+  rdfs:comment "The outcome of a bank's CDD check (kyb:CddDecisionStatusScheme: opened / declined / pending-review)." .
+
+kyb:cddCheckDate a owl:DatatypeProperty ;
+  rdfs:label "CDD check date" ;
+  rdfs:comment "The date the bank performed the CDD check recorded by this decision (xsd:date)." .
+
+kyb:operandEnc a owl:DatatypeProperty ;
+  rdfs:label "operand encoding" ;
+  rdfs:comment "The deterministic sparq encode_int_literal term encoding of the hidden value, as a 0x-prefixed lowercase hex field element." .
