@@ -1,0 +1,41 @@
+{
+  "name": "@kyb/app-vault",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kyb/data-model": "workspace:*",
+    "@kyb/vc-kit": "workspace:*",
+    "@jeswr/fetch-rdf": "^0.1.0",
+    "@jeswr/rdf-serialize": "^0.1.0",
+    "@jeswr/solid-pod-guard": "^0.1.0",
+    "@jeswr/solid-showcase": "^0.1.0",
+    "@jeswr/solid-showcase-kit": "^0.1.0",
+    "@rdfjs/types": "^2.0.1",
+    "@rdfjs/wrapper": "^0.34.0",
+    "@solid/object": "^0.6.0",
+    "n3": "^2.0.3",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@kyb/test-kit": "workspace:*",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/n3": "^1.26.1",
+    "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "jose": "^5.10.0",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}

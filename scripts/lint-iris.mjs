@@ -13,7 +13,11 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const SCANNED_FILES = ["apps/tour/content/walkthrough.json", "README.md"];
+const SCANNED_FILES = [
+  "apps/tour/content/walkthrough.json",
+  "apps/vault/content/walkthrough.json",
+  "README.md",
+];
 const SCANNED_DIRS = ["docs"];
 const SCANNED_GLOB_FILES = ["packages/data-model/vocab/kyb.ttl"];
 /** Prefixes exempted from the check (add sparingly, with a reason). */
