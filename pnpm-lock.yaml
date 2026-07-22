@@ -381,6 +381,34 @@ importers:
         specifier: ^4.1.9
         version: 4.1.10(@types/node@25.9.5)(vite@8.1.5(@types/node@25.9.5)(jiti@2.7.0))
 
+  packages/seeds:
+    dependencies:
+      '@jeswr/solid-seed':
+        specifier: file:../../vendor/jeswr-solid-seed-0.1.0.tgz
+        version: file:vendor/jeswr-solid-seed-0.1.0.tgz(shacl-engine@1.1.2)
+      '@kyb/data-model':
+        specifier: workspace:*
+        version: link:../data-model
+      '@kyb/vc-kit':
+        specifier: workspace:*
+        version: link:../vc-kit
+    devDependencies:
+      '@kyb/test-kit':
+        specifier: workspace:*
+        version: link:../test-kit
+      '@rdfjs/types':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@types/node':
+        specifier: ^25.9.2
+        version: 25.9.5
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.9
+        version: 4.1.10(@types/node@25.9.5)(vite@8.1.5(@types/node@25.9.5)(jiti@2.7.0))
+
   packages/test-kit:
     dependencies:
       '@jeswr/solid-server':
@@ -1481,6 +1509,11 @@ packages:
     version: 0.1.0
     engines: {node: '>=22.12'}
 
+  '@jeswr/solid-seed@file:vendor/jeswr-solid-seed-0.1.0.tgz':
+    resolution: {integrity: sha512-J3tC5Mo8A6314DPTRR1fY3IVjaxDfKuOhIWrb/50vM+tuxzuD2g/zLELJPRGF5eKTCnDsrryM8Cf7UDrviTrZw==, tarball: file:vendor/jeswr-solid-seed-0.1.0.tgz}
+    version: 0.1.0
+    engines: {node: '>=24'}
+
   '@jeswr/solid-server@file:vendor/jeswr-solid-server-0.1.0.tgz':
     resolution: {integrity: sha512-cMh1ckDWspn8GqHJWhL1obqCNBa8x52fNUIrQfd3Z1LYNVLE5coN51NJymFyLXteEoc2stexlz8s5bQsCM6O+A==, tarball: file:vendor/jeswr-solid-server-0.1.0.tgz}
     version: 0.1.0
@@ -1508,6 +1541,16 @@ packages:
 
   '@jeswr/stream-to-string@2.0.0':
     resolution: {integrity: sha512-VmoW6xYRjVzdMr2njBObVSlUc5KCJT+gyuuH+tea9ZLE59XhgfLNc8ufN5Md38STxCyAJUDUVcCBfaOo11BfuA==}
+
+  '@jeswr/synthetic-rdf@file:vendor/jeswr-synthetic-rdf-0.1.0.tgz':
+    resolution: {integrity: sha512-KFhWY7XC1zMLDyJHk1l9Gnmir4nwsz/7htbQs6Ik0ww1qWGLupiky/6D8JDOp1d0uTmZ6L3eElYnk0FA4oKHVQ==, tarball: file:vendor/jeswr-synthetic-rdf-0.1.0.tgz}
+    version: 0.1.0
+    engines: {node: '>=24'}
+    peerDependencies:
+      shacl-engine: ^1.1.2
+    peerDependenciesMeta:
+      shacl-engine:
+        optional: true
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -2764,6 +2807,10 @@ packages:
 
   n3@1.26.0:
     resolution: {integrity: sha512-SQknS0ua90rN+3RHuk8BeIqeYyqIH/+ecViZxX08jR4j6MugqWRjtONl3uANG/crWXnOM2WIqBJtjIhVYFha+w==}
+    engines: {node: '>=12.0'}
+
+  n3@2.0.3:
+    resolution: {integrity: sha512-um/toGVENTarHBYIK2TdH6ByBhW75WpdKpv8iTYt9wF2QfBk8s8a16iaWZFUAAC1BKfGdb99kfgx6pltdDwfKA==}
     engines: {node: '>=12.0'}
 
   n3@2.1.1:
@@ -5985,6 +6032,16 @@ snapshots:
       jose: 6.2.4
       n3: 2.1.1
 
+  '@jeswr/solid-seed@file:vendor/jeswr-solid-seed-0.1.0.tgz(shacl-engine@1.1.2)':
+    dependencies:
+      '@jeswr/rdf-serialize': file:vendor/jeswr-rdf-serialize-0.1.0.tgz
+      '@jeswr/synthetic-rdf': file:vendor/jeswr-synthetic-rdf-0.1.0.tgz(shacl-engine@1.1.2)
+      '@rdfjs/types': 2.0.1
+      '@solid/object': 0.6.0
+      n3: 2.0.3
+    transitivePeerDependencies:
+      - shacl-engine
+
   '@jeswr/solid-server@file:vendor/jeswr-solid-server-0.1.0.tgz':
     dependencies:
       '@solid/access-token-verifier': 2.1.1
@@ -6028,6 +6085,14 @@ snapshots:
   '@jeswr/stream-to-string@2.0.0':
     dependencies:
       event-emitter-promisify: 1.1.0
+
+  '@jeswr/synthetic-rdf@file:vendor/jeswr-synthetic-rdf-0.1.0.tgz(shacl-engine@1.1.2)':
+    dependencies:
+      '@jeswr/rdf-serialize': file:vendor/jeswr-rdf-serialize-0.1.0.tgz
+      '@rdfjs/types': 2.0.1
+      n3: 2.0.3
+    optionalDependencies:
+      shacl-engine: 1.1.2
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -7163,6 +7228,11 @@ snapshots:
   multiformats@14.0.4: {}
 
   n3@1.26.0:
+    dependencies:
+      buffer: 6.0.3
+      readable-stream: 4.7.0
+
+  n3@2.0.3:
     dependencies:
       buffer: 6.0.3
       readable-stream: 4.7.0

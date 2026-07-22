@@ -1,0 +1,25 @@
+{
+  "name": "@kyb/seeds",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kyb/data-model": "workspace:*",
+    "@kyb/vc-kit": "workspace:*",
+    "@jeswr/solid-seed": "^0.1.0"
+  },
+  "devDependencies": {
+    "@kyb/test-kit": "workspace:*",
+    "@rdfjs/types": "^2.0.1",
+    "@types/node": "^25.9.2",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
