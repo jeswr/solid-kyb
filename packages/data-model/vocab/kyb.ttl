@@ -137,13 +137,17 @@ kyb:checkedCredential a owl:ObjectProperty ;
 
 kyb:field a owl:ObjectProperty ;
   rdfs:label "anchored field" ;
-  rdfs:comment "The hidden field IRI a ZK operand anchor binds. In this demo the only ZK-provable KYB field is kyb:ownershipPercentageBps (sh:in-constrained in the shape)." .
+  rdfs:comment "The hidden field IRI a ZK operand anchor binds: either kyb:ownershipPercentageBps (a per-owner value, Tier A) or kyb:beneficialOwnershipArrayCommitment (the full hidden owner array, Tier B) — sh:in-constrained in the shape." .
 
 ### Datatype properties
 
 kyb:ownershipPercentageBps a owl:DatatypeProperty ;
   rdfs:label "ownership percentage (basis points)" ;
   rdfs:comment "ZK-provable scaled-unit companion to the disclosed fibo-be-le-lei:hasOwnershipPercentage (xsd:decimal): the same ownership share as an xsd:integer in basis points, 0..10000 (100.00% = 10000). ZK field: 4-digit budget, sparq filter_int_d4; scene-3 predicate ownershipPercentageBps >= 2500 (the CDD Rule's 25% beneficial-owner threshold), same disclosed-plus-ZK-scaled-companion pattern as vocab.md §6's mort:*Cents fields." .
+
+kyb:beneficialOwnershipArrayCommitment a owl:DatatypeProperty ;
+  rdfs:label "beneficial ownership array commitment" ;
+  rdfs:comment "ZK Tier B operand: a Blake3 commitment (truncated to a BN254 field element) over the FULL hidden array of a beneficial-ownership credential's per-owner basis-points stakes (fixed-width, zero-padded). Anchored via kyb:ZkOperandAnchor exactly like kyb:ownershipPercentageBps; binds the vc-kit completeness-scan circuit's private witness array to the value the beneficial-ownership registrar actually signed, so the completeness proof cannot be run over a fabricated owner list. The commitment itself discloses nothing about individual stakes (one-way hash)." .
 
 kyb:isIllustrativeLei a owl:DatatypeProperty ;
   rdfs:label "is illustrative LEI" ;

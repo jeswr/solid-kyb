@@ -72,8 +72,8 @@ kybshape:ZkOperandAnchorSubjectShape
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:nodeKind sh:IRI ;
-    sh:in ( kyb:ownershipPercentageBps ) ;
-    sh:message "field must be the ownershipPercentageBps field IRI" ;
+    sh:in ( kyb:ownershipPercentageBps kyb:beneficialOwnershipArrayCommitment ) ;
+    sh:message "field must be an anchorable KYB ZK field (per-owner bps, or the Tier B owner-array commitment)" ;
   ] ;
   sh:property [
     # Deterministic salt-free sparq term encoding: 0x-prefixed lowercase hex

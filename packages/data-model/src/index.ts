@@ -95,6 +95,7 @@ export { LegalEntityIdentifier, PostalAddress, TypedNode } from "./wrappers/supp
 export {
   fitsZkBudget,
   ZK_ANCHORABLE_FIELD_IRIS,
+  ZK_COMMITMENT_FIELD_IRIS,
   ZK_FIELD_BUDGETS,
   type ZkFieldBudget,
   zkBudgetFor,

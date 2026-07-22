@@ -13,6 +13,8 @@ export const KYB_NAMESPACE = "https://solid-kyb-vocab.vercel.app/kyb#";
  */
 export const KYB = {
   AuthorizedOfficer: "https://solid-kyb-vocab.vercel.app/kyb#AuthorizedOfficer",
+  beneficialOwnershipArrayCommitment:
+    "https://solid-kyb-vocab.vercel.app/kyb#beneficialOwnershipArrayCommitment",
   BeneficialOwnershipCredential:
     "https://solid-kyb-vocab.vercel.app/kyb#BeneficialOwnershipCredential",
   BeneficialOwnershipVerificationPurpose:

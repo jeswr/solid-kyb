@@ -44,13 +44,26 @@ export const ZK_FIELD_BUDGETS: readonly ZkFieldBudget[] = [
 ] as const;
 
 /**
+ * ZK-anchorable fields that are NOT digit-budget threshold operands: Tier B's
+ * owner-array commitment binds a hidden ARRAY (via a hash), not a single
+ * bounded integer, so it has no `filter_int` digit budget — it is anchored
+ * through the identical `kyb:ZkOperandAnchor` pattern for forgery-resistance
+ * (design §4's decision-0012 posture applies uniformly to every hidden
+ * operand, scalar or aggregate).
+ */
+export const ZK_COMMITMENT_FIELD_IRIS: readonly string[] = [
+  KYB.beneficialOwnershipArrayCommitment,
+] as const;
+
+/**
  * IRIs a `kyb:ZkOperandAnchor` may anchor. Equals the sh:in list of
  * kybshape:ZkOperandAnchorSubjectShape's kyb:field constraint
  * (test-enforced).
  */
-export const ZK_ANCHORABLE_FIELD_IRIS: readonly string[] = ZK_FIELD_BUDGETS.map(
-  (budget) => budget.iri,
-);
+export const ZK_ANCHORABLE_FIELD_IRIS: readonly string[] = [
+  ...ZK_FIELD_BUDGETS.map((budget) => budget.iri),
+  ...ZK_COMMITMENT_FIELD_IRIS,
+];
 
 /** Budget for a field IRI, or undefined when the field is not ZK-provable. */
 export function zkBudgetFor(fieldIri: string): ZkFieldBudget | undefined {
