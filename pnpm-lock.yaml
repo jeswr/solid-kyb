@@ -36,6 +36,70 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  apps/issuers:
+    dependencies:
+      '@jeswr/solid-pod-guard':
+        specifier: file:../../vendor/jeswr-solid-pod-guard-0.1.0.tgz
+        version: file:vendor/jeswr-solid-pod-guard-0.1.0.tgz
+      '@jeswr/solid-showcase':
+        specifier: file:../../vendor/jeswr-solid-showcase-0.1.0.tgz
+        version: file:vendor/jeswr-solid-showcase-0.1.0.tgz(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@jeswr/solid-showcase-kit':
+        specifier: file:../../vendor/jeswr-solid-showcase-kit-0.1.0.tgz
+        version: file:vendor/jeswr-solid-showcase-kit-0.1.0.tgz(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@kyb/data-model':
+        specifier: workspace:*
+        version: link:../../packages/data-model
+      '@kyb/vc-kit':
+        specifier: workspace:*
+        version: link:../../packages/vc-kit
+      next:
+        specifier: ^16.2.10
+        version: 16.2.11(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: ^19.2.7
+        version: 19.2.8
+      react-dom:
+        specifier: ^19.2.7
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@kyb/test-kit':
+        specifier: workspace:*
+        version: link:../../packages/test-kit
+      '@rdfjs/types':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@tailwindcss/postcss':
+        specifier: ^4.3.2
+        version: 4.3.3
+      '@types/n3':
+        specifier: ^1.26.1
+        version: 1.26.1
+      '@types/node':
+        specifier: ^25.9.2
+        version: 25.9.5
+      '@types/react':
+        specifier: ^19.2.17
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.17)
+      jose:
+        specifier: ^6.2.3
+        version: 6.2.4
+      n3:
+        specifier: ^2.0.3
+        version: 2.1.1
+      tailwindcss:
+        specifier: ^4.3.2
+        version: 4.3.3
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.9
+        version: 4.1.10(@types/node@25.9.5)(vite@8.1.5(@types/node@25.9.5)(jiti@2.7.0))
+
   apps/tour:
     dependencies:
       '@jeswr/solid-showcase':
@@ -1189,6 +1253,10 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
+  '@jeswr/fetch-rdf@0.1.0':
+    resolution: {integrity: sha512-bdugw+QynGEUTUYERuVDY0sMfEiCehx54ahvXVUY/KThq1r6w+uHH0kbhg8s36gvdW3xNDaqAbbnGbRDR9qgkw==}
+    engines: {node: '>=20'}
+
   '@jeswr/guarded-fetch@file:vendor/jeswr-guarded-fetch-0.1.0.tgz':
     resolution: {integrity: sha512-0oE+YR5TGhnXiHX6U1RdtONELN/SuD/pt0XRo+cCwduW+gGgF5Xxn7y5SJkMJIHhnOrVcInp25CsmtafiwuUuQ==, tarball: file:vendor/jeswr-guarded-fetch-0.1.0.tgz}
     version: 0.1.0
@@ -1198,6 +1266,16 @@ packages:
     resolution: {integrity: sha512-q+joKpS6ME76Rknyeg2S4r7U+3W/Cpr5jhHFbb54ItKu/n5tPSC8lxOPgkBQyX24M7hI9xL9rNOX1VEcO0pBzg==, tarball: file:vendor/jeswr-rdf-serialize-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=24'}
+
+  '@jeswr/solid-api-auth@file:vendor/jeswr-solid-api-auth-0.1.0.tgz':
+    resolution: {integrity: sha512-oHu4aIjdNzSykLZeE7xE4QsK+fT8ROJs3hOqlAMz7yCkZ8SNrC/xtV3iVPi4/mBzJO8Mr6FiUbWvr+Vcx6mxvA==, tarball: file:vendor/jeswr-solid-api-auth-0.1.0.tgz}
+    version: 0.1.0
+    engines: {node: '>=22.12'}
+
+  '@jeswr/solid-pod-guard@file:vendor/jeswr-solid-pod-guard-0.1.0.tgz':
+    resolution: {integrity: sha512-CM6a1OAdgMlf5oX57Rt6n0N4mD6Aexj/q7V+9NbkHJUeNgwad0Voq2fP+RKt4jRn1VkdCY0S05k4b90qbajWnw==, tarball: file:vendor/jeswr-solid-pod-guard-0.1.0.tgz}
+    version: 0.1.0
+    engines: {node: '>=22.12'}
 
   '@jeswr/solid-server@file:vendor/jeswr-solid-server-0.1.0.tgz':
     resolution: {integrity: sha512-cMh1ckDWspn8GqHJWhL1obqCNBa8x52fNUIrQfd3Z1LYNVLE5coN51NJymFyLXteEoc2stexlz8s5bQsCM6O+A==, tarball: file:vendor/jeswr-solid-server-0.1.0.tgz}
@@ -2529,6 +2607,9 @@ packages:
   node-gyp-build-optional-packages@5.2.2:
     resolution: {integrity: sha512-s+w+rBWnpTMwSFbaE0UXsRlg7hU4FjekKU4eyAih5T8nJuNZT1nNsskXpxmeqSK9UzkBl6UgRlnKc8hz8IEqOw==}
     hasBin: true
+
+  oauth4webapi@3.8.6:
+    resolution: {integrity: sha512-iwemM91xz8nryHti2yTmg5fhyEMVOkOXwHNqbvcATjyajb5oQxCQzrNOA6uElRHuMhQQTKUyFKV9y/CNyg25BQ==}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -5667,6 +5748,13 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
+  '@jeswr/fetch-rdf@0.1.0':
+    dependencies:
+      '@rdfjs/dataset': 2.0.3
+      content-type: 1.0.5
+      jsonld-streaming-parser: 5.0.1
+      n3: 2.1.1
+
   '@jeswr/guarded-fetch@file:vendor/jeswr-guarded-fetch-0.1.0.tgz':
     dependencies:
       undici: 8.5.0
@@ -5674,6 +5762,23 @@ snapshots:
   '@jeswr/rdf-serialize@file:vendor/jeswr-rdf-serialize-0.1.0.tgz':
     dependencies:
       '@rdfjs/types': 2.0.1
+      n3: 2.1.1
+
+  '@jeswr/solid-api-auth@file:vendor/jeswr-solid-api-auth-0.1.0.tgz':
+    dependencies:
+      '@jeswr/fetch-rdf': 0.1.0
+      jose: 6.2.4
+      oauth4webapi: 3.8.6
+      undici: 8.5.0
+
+  '@jeswr/solid-pod-guard@file:vendor/jeswr-solid-pod-guard-0.1.0.tgz':
+    dependencies:
+      '@jeswr/fetch-rdf': 0.1.0
+      '@jeswr/guarded-fetch': file:vendor/jeswr-guarded-fetch-0.1.0.tgz
+      '@jeswr/solid-api-auth': file:vendor/jeswr-solid-api-auth-0.1.0.tgz
+      '@rdfjs/types': 2.0.1
+      '@solid/object': 0.6.0
+      jose: 6.2.4
       n3: 2.1.1
 
   '@jeswr/solid-server@file:vendor/jeswr-solid-server-0.1.0.tgz':
@@ -6899,6 +7004,8 @@ snapshots:
     dependencies:
       detect-libc: 2.1.2
     optional: true
+
+  oauth4webapi@3.8.6: {}
 
   object-inspect@1.13.4: {}
 
