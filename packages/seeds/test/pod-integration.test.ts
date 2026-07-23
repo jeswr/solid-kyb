@@ -14,15 +14,19 @@
  *   operand encoding — asserted explicitly so a future regression (a fabricated encoding)
  *   would fail loudly.
  */
+import { execFileSync } from "node:child_process";
 import { validate } from "@kyb/data-model";
 import { startSolidServer } from "@kyb/test-kit";
 import {
   OWNERSHIP_THRESHOLD_BPS,
   ownershipArrayCommitment,
   proveCompleteness,
+  proveOwnerThreshold,
   verifyCompleteness,
   type VerifyCompletenessOptions,
   verifyCredential,
+  verifyOwnerThreshold,
+  type VerifyOwnerThresholdOptions,
 } from "@kyb/vc-kit";
 import { afterEach, describe, expect, it } from "vitest";
 import { CREDENTIAL_POD_PATHS, ISSUER_ROLES } from "../credentials.ts";
@@ -31,6 +35,23 @@ import { seedKybPod } from "../kyb-pod.ts";
 
 const NOW = new Date("2026-07-22T12:00:00.000Z");
 const PROVE_TIMEOUT = 180_000;
+
+function cargoAvailable(): boolean {
+  try {
+    execFileSync("cargo", ["--version"], { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Mirrors `../issuance.ts`'s own `tierANativeBridgeAvailable` gate exactly (and
+ * `@kyb/vc-kit`'s own `seed-tooling-native.test.ts`) — this suite only proves the REAL Tier
+ * A round trip when the seeder itself could genuinely mint. */
+const TIER_A_NATIVE_AVAILABLE =
+  process.env.SPARQ_CHECKOUT !== undefined &&
+  process.env.SPARQ_CHECKOUT.length > 0 &&
+  cargoAvailable();
 
 /** One-shot nonce consumer accepting exactly (sessionKey, nonce) — then burned. Ported from
  * `@kyb/vc-kit`'s own test rig (`test/zk-support.ts`, a test fixture, not a package export). */
@@ -209,6 +230,74 @@ describe("seedKybPod — issue, read back, verify (real pod, real vc-kit)", () =
         disclosedCount,
       };
       const result = await verifyCompleteness(proof, options);
+      expect(result.errors).toEqual([]);
+      expect(result.verified).toBe(true);
+    },
+    PROVE_TIMEOUT,
+  );
+
+  it.skipIf(!TIER_A_NATIVE_AVAILABLE)(
+    "the seeded Tier A anchors support a REAL proveOwnerThreshold / verifyOwnerThreshold " +
+      "round trip, minted from the GENUINE native sparq bridge (gated on SPARQ_CHECKOUT)",
+    async () => {
+      const server = await startSolidServer({});
+      stop = server.stop;
+      const account = server.accounts[0];
+      if (account === undefined) throw new Error("harness booted with no primary account");
+
+      const issuance = createKybIssuance({ podOrigin: account.baseUrl, now: NOW });
+      const seeded = await seedKybPod({
+        target: { webid: account.webid, baseUrl: account.baseUrl, authFetch: account.authFetch },
+        issuance,
+        now: NOW,
+        mode: "create",
+      });
+      expect(seeded.tierA.status).toBe("minted");
+      if (seeded.tierA.status !== "minted") return;
+
+      const podRoot = new URL(account.baseUrl).origin;
+      const trustedIssuer = `${podRoot}${ISSUER_ROLES.beneficialOwnershipRegistrar.docPath}`;
+
+      // Jordan Blake — 4200 bps (42%), the persona's managing officer and first ABOVE-
+      // threshold (>= 2500 bps) owner (design §7). The anchor's operandEnc is the GENUINE
+      // sparq encode_int_literal(4200) output the native bridge minted moments ago — never
+      // a fixture value borrowed from a different persona's bps.
+      const jordan = seeded.persona.owners[0];
+      if (jordan === undefined) throw new Error("persona has no first owner");
+      expect(jordan.name).toBe("Jordan Blake");
+      expect(jordan.ownershipPercentageBps).toBe(4200);
+      expect(jordan.ownershipPercentageBps).toBeGreaterThanOrEqual(OWNERSHIP_THRESHOLD_BPS);
+
+      const jordanAnchor = seeded.tierA.anchors.find((anchor) =>
+        anchor.path.endsWith("anchor-bps-jordan-blake"),
+      );
+      if (jordanAnchor === undefined)
+        throw new Error("Jordan Blake's Tier A anchor was not minted");
+
+      const anchorResponse = await account.authFetch(`${podRoot}${jordanAnchor.path}`);
+      expect(anchorResponse.status).toBe(200);
+      const anchorBody = await anchorResponse.text();
+
+      const nonce = "seeder-integration-tier-a-nonce";
+      const proof = await proveOwnerThreshold({
+        value: jordan.ownershipPercentageBps,
+        operandEnc: jordanAnchor.operandEnc,
+        nonce,
+      });
+
+      const session = "seeder-integration-tier-a-session";
+      const options: VerifyOwnerThresholdOptions = {
+        anchorVc: anchorBody,
+        webid: account.webid,
+        nonce,
+        nonces: oneShotNonce(session, nonce),
+        sessionKey: session,
+        now: NOW,
+        trustedIssuers: [trustedIssuer],
+        webIdFetch: account.authFetch,
+        statusFetch: account.authFetch,
+      };
+      const result = await verifyOwnerThreshold(proof, options);
       expect(result.errors).toEqual([]);
       expect(result.verified).toBe(true);
     },

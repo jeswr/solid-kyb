@@ -7,5 +7,13 @@
     "node": "v24.18.0"
   },
   "capturedAt": "2026-07-18",
-  "note": "All values are genuine sparq-native outputs (encode_int_literal, Poseidon2 commitments, Schnorr-BJJ signatures). Research-grade; NOT externally audited. Attestation fixtures use the PUBLIC-label deterministic salts/blindings (fixture mode) — byte-stable for tests, never a production pattern."
+  "note": "All values are genuine sparq-native outputs (encode_int_literal, Poseidon2 commitments, Schnorr-BJJ signatures). Research-grade; NOT externally audited. Attestation fixtures use the PUBLIC-label deterministic salts/blindings (fixture mode) — byte-stable for tests, never a production pattern.",
+  "addenda": [
+    {
+      "capturedAt": "2026-07-23",
+      "sparqCommit": "947480b02fcbd174f80f9247b55ee02202d2e345",
+      "toolchain": { "cargo": "1.97.1", "rustc": "1.97.1", "node": "v24.18.0" },
+      "note": "operand-enc.json's `encodings.1200/1800/2800/4200` were minted from a REAL local jeswr/sparq checkout (this repo's own scripts/sparq-helper, `cargo build --release`) — the first genuine per-owner `encode_int_literal(ownershipPercentageBps)` outputs for the Northwind Logistics LLC persona's actual owner values (packages/data-model/src/personas.ts). Every pre-existing entry above was independently reproduced byte-identically by this run, confirming the toolchain/pinned-commit wiring. Exercised end-to-end (mint -> issue -> proveOwnerThreshold -> verifyOwnerThreshold) by packages/seeds/test/pod-integration.test.ts, gated on SPARQ_CHECKOUT + cargo."
+    }
+  ]
 }
