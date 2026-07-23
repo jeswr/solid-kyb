@@ -14,7 +14,8 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "lint:iris": "node scripts/lint-iris.mjs",
-    "check:insignia": "node scripts/check-insignia.mjs"
+    "check:insignia": "node scripts/check-insignia.mjs",
+    "e2e": "pnpm --filter @kyb/e2e run test:e2e"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.4",
