@@ -279,13 +279,25 @@ business's explicit "run the KYB check" / "run the ownership proof" action, neve
   for Demo 2's vocabulary (`lend-vocab-publish`); a `kyb-vocab-publish` follow-up bead is needed
   before `lint:iris`' 7-day-cache CI gate can pass on a fresh cache and before any `kyb:` IRI in
   this document can be called genuinely dereferenceable rather than "designed to be."
-- Tier A's per-owner operand anchors for Jordan's and Priya's *actual* bps values cannot yet be
-  minted in this environment: doing so requires sparq's native `encode_int_literal` bridge,
-  gated on a local `SPARQ_CHECKOUT` the seeding environment does not have
-  (`apps/vault/lib/server/kyb-issuance.ts`). The seeded demo anchors a Tier A "sample owner" proof
-  with a real, provenance-tracked captured encoding from `@kyb/vc-kit`'s own test fixtures instead
-  of a fabricated one — honestly disclosed, but not yet the genuine per-owner encoding for this
-  persona's exact values.
+- **[Updated 2026-07-23, verified for real]** Tier A's per-owner operand anchors for the
+  Northwind persona's *actual* `ownershipPercentageBps` values (Jordan 4200, Priya 2800, Marcus
+  1800, Dana 1200 bps) were successfully minted from a real local `jeswr/sparq` checkout
+  (`SPARQ_CHECKOUT`, commit `947480b0`) + `cargo`: `scripts/sparq-helper` built cleanly, its
+  every pre-existing fixture output was reproduced byte-identically (confirming the toolchain
+  is wired correctly), and it produced the four owners' genuine `encode_int_literal` operand
+  encodings for the first time (captured into `packages/vc-kit/test/fixtures/operand-enc.json`,
+  `PROVENANCE.json`'s `addenda`). `packages/seeds`' canonical seeder (`mintTierAAnchors`,
+  `packages/seeds/issuance.ts`) mints these as real signed `kyb:ZkOperandAnchor` VCs — verified
+  end-to-end in `packages/seeds/test/pod-integration.test.ts` (mint → issue → read back off a
+  live pod → `proveOwnerThreshold`/`verifyOwnerThreshold`, genuine UltraHonk proving, no
+  fixtures). This capability is still *conditional* on `SPARQ_CHECKOUT` + a Rust toolchain being
+  present at seed time — a typical CI/Vercel build has neither, so `mintTierAAnchors` still
+  honestly returns `"skipped-no-sparq-checkout"` there (never fabricates) — and the currently
+  **deployed** demo app's own seeder (`apps/vault/lib/server/kyb-issuance.ts`, a separate,
+  not-yet-migrated seeding path) still anchors its Tier A "sample owner" proof with a borrowed
+  captured fixture value rather than Jordan's/Priya's real bps values; migrating `apps/vault` onto
+  `packages/seeds`' seeder is the natural next follow-up now that the underlying capability is
+  proven real.
 - The Tier B completeness circuit (`kyb_completeness_scan_n8`) is bespoke, project-authored code —
   not a sparq-audited circuit family member — and is research-grade, pending external
   cryptographer sign-off, same as the sparq estate underlying Tier A.
@@ -748,16 +760,24 @@ on API payloads and an honesty panel/banner — see each app's `lib/branding.ts`
   the scene-4 third relying party (insurance renewal) are narrated data flows, not live API calls
   or a live app; no real sanctions/adverse-media screening occurs; no real bank account is opened
   and no money moves.
-- **Partially real, with a disclosed gap:** Tier A's operand anchor for a *newly-generated*
-  `ownershipPercentageBps` value cannot yet be minted in this environment — genuinely encoding
-  Jordan's and Priya's exact bps values requires sparq's native `encode_int_literal` bridge, gated
-  on a local `SPARQ_CHECKOUT` this build environment lacks. The seeder therefore anchors the demo's
-  Tier A "sample owner" proof with a *real*, provenance-tracked encoding captured from `@kyb/vc-kit`'s
-  own test fixtures (`packages/vc-kit/test/fixtures/operand-enc.json`) rather than fabricating one —
-  honestly disclosed in `apps/vault/lib/server/kyb-issuance.ts`'s own header comment, but not yet
-  the genuine per-owner encoding for this persona's actual values. This is the single largest
-  build gap in the demo's ZK layer and the natural next follow-up once `SPARQ_CHECKOUT` is
-  available in the seeding environment.
+- **Partially real, with a narrowed and disclosed gap [updated 2026-07-23]:** genuinely encoding
+  a *newly-generated* `ownershipPercentageBps` value needs sparq's native `encode_int_literal`
+  bridge, gated on a local `SPARQ_CHECKOUT` + Rust toolchain. That bridge has now been built and
+  run for real (sparq commit `947480b0`; `scripts/sparq-helper`, `cargo build --release`),
+  producing genuine operand encodings for all four Northwind owners' *actual* bps values (Jordan
+  4200, Priya 2800, Marcus 1800, Dana 1200) — captured into
+  `packages/vc-kit/test/fixtures/operand-enc.json`/`PROVENANCE.json` and minted as real signed
+  `kyb:ZkOperandAnchor` VCs by `packages/seeds`' canonical seeder
+  (`mintTierAAnchors`/`packages/seeds/issuance.ts`), exercised end-to-end — including a genuine
+  `proveOwnerThreshold`/`verifyOwnerThreshold` UltraHonk round trip against a live pod — in
+  `packages/seeds/test/pod-integration.test.ts`. The remaining gap: this is still *conditional*
+  on `SPARQ_CHECKOUT` + `cargo` being present at seed time, which a normal CI/Vercel build is
+  not (the seeder honestly returns `"skipped-no-sparq-checkout"` there, never fabricating), and
+  the **currently deployed** demo app's own seeder (`apps/vault/lib/server/kyb-issuance.ts`, a
+  separate, older seeding path that has not yet been migrated onto `packages/seeds`) still anchors
+  its Tier A "sample owner" proof with a borrowed captured fixture value rather than a real
+  owner's bps. Migrating `apps/vault` onto `packages/seeds`' seeder is the natural next follow-up
+  now that the underlying minting path is proven real end-to-end.
 - **Vocabulary publish gap:** the `kyb:` project vocabulary is fully designed, committed as Turtle
   source (`packages/data-model/vocab/kyb.ttl`), and generates its own TypeScript bindings — but the
   `https://solid-kyb-vocab.vercel.app/kyb#` Vercel project that would make it genuinely
