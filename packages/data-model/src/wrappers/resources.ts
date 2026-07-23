@@ -214,7 +214,7 @@ export class BeneficialOwnershipSubject extends TypedNode {
   get ownershipRecords(): Set<EntityOwnership> {
     return SetFrom.subjectPredicate(
       this,
-      KYB.hasOwnershipRecord,
+      FIBO.hasDirectOwnership,
       TermAs.instance(EntityOwnership),
       (value, _factory) => TermAs.term(value),
     );
@@ -277,7 +277,7 @@ export class OfficerAuthorizationSubject extends TypedNode {
   get authorizedOfficer(): AuthorizedOfficer {
     return RequiredFrom.subjectPredicate(
       this,
-      KYB.hasAuthorizedOfficer,
+      FIBO.hasCorporateOfficer,
       TermAs.instance(AuthorizedOfficer),
     );
   }

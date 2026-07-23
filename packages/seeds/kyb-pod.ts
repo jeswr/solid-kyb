@@ -45,7 +45,10 @@ function escapeTurtleLiteral(value: string): string {
 }
 
 /** The WebID profile card: a public-facing pod resource (`foaf:name` + `pim:storage` +
- * `schema:identifier`, the business's own LEI). */
+ * the business's own LEI). The LEI is modelled as a FIBO identifier INDIVIDUAL
+ * (`cmns-id:isIdentifiedBy` -> `fibo-be-le-lei:LegalEntityIdentifier`, value via
+ * `cmns-txt:hasTextValue`) — the FIBO/Commons pattern — never a `schema:identifier`
+ * string. */
 function profileCardTurtle(options: {
   webid: string;
   name: string;
@@ -55,11 +58,17 @@ function profileCardTurtle(options: {
   return `@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix pim: <http://www.w3.org/ns/pim/space#> .
 @prefix schema: <https://schema.org/> .
+@prefix cmns-id: <https://www.omg.org/spec/Commons/Identifiers/> .
+@prefix cmns-txt: <https://www.omg.org/spec/Commons/TextDatatype/> .
+@prefix fibo-be-le-lei: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/> .
 
 <${options.webid}>
-    a foaf:Person, schema:Organization ;
+    a foaf:Person, schema:Organization, fibo-be-le-lei:LEIRegisteredEntity ;
     foaf:name "${escapeTurtleLiteral(options.name)}" ;
-    schema:identifier "${escapeTurtleLiteral(options.identifier)}" ;
+    cmns-id:isIdentifiedBy [
+        a fibo-be-le-lei:LegalEntityIdentifier ;
+        cmns-txt:hasTextValue "${escapeTurtleLiteral(options.identifier)}"
+    ] ;
     pim:storage <${options.storage}> .
 `;
 }

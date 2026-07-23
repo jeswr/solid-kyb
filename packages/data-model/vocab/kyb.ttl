@@ -49,7 +49,7 @@ kyb:BeneficialOwnershipCredential a owl:Class ;
 
 kyb:OfficerAuthorizationCredential a owl:Class ;
   rdfs:label "officer authorization credential" ;
-  rdfs:comment "VC recording a signatory/officer's authority to bind the business (fibo-be-oac-exec:Signatory / CorporateOfficer — the vLEI OOR/ECR role-credential analogue), issued by the same GLEIF-modelled issuer surface as the organisational-identity credential. Holder-bound to the business's own WebID; the embedded officer node (kyb:hasAuthorizedOfficer) carries the individual's identity and fibo-be-oac-exec:hasSigningAuthorityFor back to the business." .
+  rdfs:comment "VC recording a signatory/officer's authority to bind the business (fibo-be-oac-exec:Signatory / CorporateOfficer — the vLEI OOR/ECR role-credential analogue), issued by the same GLEIF-modelled issuer surface as the organisational-identity credential. Holder-bound to the business's own WebID; the embedded officer node (linked via fibo-be-oac-exec:hasCorporateOfficer) carries the individual's identity and fibo-be-oac-exec:hasSigningAuthorityFor back to the business." .
 
 ### The ZK operand anchor (design §4; same pattern as the lending demo's
 ### lend:ZkOperandAnchor, scoped to the one KYB ZK field)
@@ -122,14 +122,14 @@ kyb:BeneficialOwnershipVerificationPurpose a dpv:Purpose, skos:Concept ;
   rdfs:comment "The DPV purpose a consent receipt cites when a business grants a relying party (bank, registrar) access to its beneficial-ownership data under the FinCEN CDD Rule (31 CFR §1010.230). Defined here for the app-level consent ledger the vault app will use in a later build phase; not wired into a data-model shape in this foundation phase." .
 
 ### Object properties
-
-kyb:hasOwnershipRecord a owl:ObjectProperty ;
-  rdfs:label "has ownership record" ;
-  rdfs:comment "Links a beneficial-ownership credential's subject (the business) to one disclosed fibo-be-oac-opty:EntityOwnership record. Residue: FIBO's OwnershipParties module defines the EntityOwnership class and its hasOwningEntity/hasOwnedEntity edges, but not a property for a credential subject to aggregate its full disclosed set." .
-
-kyb:hasAuthorizedOfficer a owl:ObjectProperty ;
-  rdfs:label "has authorized officer" ;
-  rdfs:comment "Links an officer-authorization credential's subject (the business's own WebID, holder-bound) to the embedded kyb:AuthorizedOfficer node describing the individual signatory (fibo-be-oac-exec:hasSigningAuthorityFor points back from that node to the business)." .
+#
+# NOTE (fibo-direct refactor): the business -> EntityOwnership and business ->
+# CorporateOfficer links are NOT minted here. They use FIBO's own inverse
+# properties directly — fibo-be-oac-opty:hasDirectOwnership (owl:inverseOf
+# hasOwnedEntity) and fibo-be-oac-exec:hasCorporateOfficer (owl:inverseOf
+# isOfficerOf) — verified live 2026-07-23 in the OwnershipParties/Executives
+# modules. The former kyb:hasOwnershipRecord / kyb:hasAuthorizedOfficer terms
+# were removed because they duplicated concepts FIBO already defines.
 
 kyb:checkedCredential a owl:ObjectProperty ;
   rdfs:label "checked credential" ;

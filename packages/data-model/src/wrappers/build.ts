@@ -190,7 +190,7 @@ export function buildOfficerAuthorizationCredential(
   applyEnvelope(credential, init, KYB.OfficerAuthorizationCredential);
   const subject = credential.credentialSubject;
   const officerNode = blank("officer");
-  link(subject, KYB.hasAuthorizedOfficer, officerNode);
+  link(subject, FIBO.hasCorporateOfficer, officerNode);
   const officer = wrap(AuthorizedOfficer, officerNode, subject);
   officer.typeIris.add(FIBO.Signatory);
   officer.typeIris.add(FIBO.CorporateOfficer);

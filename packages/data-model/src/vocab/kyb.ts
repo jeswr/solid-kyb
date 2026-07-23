@@ -33,8 +33,6 @@ export const KYB = {
   EntityLegalForm_LLP: "https://solid-kyb-vocab.vercel.app/kyb#EntityLegalForm-LLP",
   EntityLegalFormScheme: "https://solid-kyb-vocab.vercel.app/kyb#EntityLegalFormScheme",
   field: "https://solid-kyb-vocab.vercel.app/kyb#field",
-  hasAuthorizedOfficer: "https://solid-kyb-vocab.vercel.app/kyb#hasAuthorizedOfficer",
-  hasOwnershipRecord: "https://solid-kyb-vocab.vercel.app/kyb#hasOwnershipRecord",
   isIllustrativeLei: "https://solid-kyb-vocab.vercel.app/kyb#isIllustrativeLei",
   OfficerAuthorizationCredential:
     "https://solid-kyb-vocab.vercel.app/kyb#OfficerAuthorizationCredential",
