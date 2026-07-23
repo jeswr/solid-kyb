@@ -12,6 +12,7 @@ export const SHAPES_TURTLE = {
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix cred: <https://www.w3.org/2018/credentials#> .
 @prefix sec: <https://w3id.org/security#> .
+@prefix fibo-be-oac-opty: <https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/> .
 @prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#> .
 @prefix kybshape: <https://solid-kyb-vocab.vercel.app/kyb/shapes#> .
 
@@ -79,7 +80,12 @@ kybshape:BeneficialOwnershipSubjectShape
   sh:closed true ;
   sh:ignoredProperties ( rdf:type ) ;
   sh:property [
-    sh:path kyb:hasOwnershipRecord ;
+    # business (the owned entity) --> its disclosed EntityOwnership records.
+    # fibo-be-oac-opty:hasDirectOwnership is FIBO's OWN owl:inverseOf
+    # hasOwnedEntity (domain BusinessEntity/LegalEntity, range
+    # EntityOwnership) — used DIRECTLY here rather than a minted aggregation
+    # predicate.
+    sh:path fibo-be-oac-opty:hasDirectOwnership ;
     sh:minCount 1 ;
     sh:nodeKind sh:BlankNodeOrIRI ;
     sh:node kybshape:EntityOwnershipShape ;
@@ -132,6 +138,7 @@ kybshape:CddDecisionRecordShape
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema: <https://schema.org/> .
 @prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix cmns-txt: <https://www.omg.org/spec/Commons/TextDatatype/> .
 @prefix fibo-be-oac-opty: <https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/> .
 @prefix fibo-be-le-lei: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/> .
 @prefix kyb: <https://solid-kyb-vocab.vercel.app/kyb#> .
@@ -193,7 +200,11 @@ kybshape:LegalEntityIdentifierShape
     sh:hasValue fibo-be-le-lei:LegalEntityIdentifier ;
   ] ;
   sh:property [
-    sh:path schema:identifier ;
+    # The LEI code text. Carried by the OMG Commons text predicate
+    # cmns-txt:hasTextValue — the literal value of an identifier INDIVIDUAL
+    # (fibo-be-le-lei:LegalEntityIdentifier), per the FIBO/Commons identifier
+    # pattern — never a schema:identifier string annotation.
+    sh:path cmns-txt:hasTextValue ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:datatype xsd:string ;
@@ -338,7 +349,11 @@ kybshape:OfficerAuthorizationSubjectShape
   sh:closed true ;
   sh:ignoredProperties ( rdf:type ) ;
   sh:property [
-    sh:path kyb:hasAuthorizedOfficer ;
+    # business (ControlledParty) --> its CorporateOfficer node.
+    # fibo-be-oac-exec:hasCorporateOfficer is FIBO's OWN owl:inverseOf
+    # isOfficerOf (range CorporateOfficer) — used DIRECTLY here rather than a
+    # minted link predicate.
+    sh:path fibo-be-oac-exec:hasCorporateOfficer ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:nodeKind sh:BlankNodeOrIRI ;

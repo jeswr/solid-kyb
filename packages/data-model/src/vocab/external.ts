@@ -20,7 +20,15 @@ export const XSD = {
 
 const SCHEMA_NS = "https://schema.org/";
 
-/** schema.org terms — person/address/org display fields. */
+/**
+ * schema.org terms — person/address/org display fields only. Note there is
+ * deliberately no `schema:identifier` here: the LEI is an identifier
+ * INDIVIDUAL (`fibo-be-le-lei:LegalEntityIdentifier`) whose literal value is
+ * carried by the OMG Commons text predicate `cmns-txt:hasTextValue`
+ * (`CMNS.hasTextValue`), not a schema.org string annotation — the
+ * FIBO/Commons "identifiers are individuals, referenced by
+ * cmns-id:isIdentifiedBy" pattern.
+ */
 export const SCHEMA = {
   Organization: `${SCHEMA_NS}Organization`,
   Person: `${SCHEMA_NS}Person`,
@@ -28,7 +36,6 @@ export const SCHEMA = {
   address: `${SCHEMA_NS}address`,
   addressLocality: `${SCHEMA_NS}addressLocality`,
   addressRegion: `${SCHEMA_NS}addressRegion`,
-  identifier: `${SCHEMA_NS}identifier`,
   jobTitle: `${SCHEMA_NS}jobTitle`,
   name: `${SCHEMA_NS}name`,
   postalCode: `${SCHEMA_NS}postalCode`,
@@ -62,6 +69,7 @@ const BE_OWNERSHIP = `${FIBO_NS}OwnershipAndControl/OwnershipParties/`;
 const BE_EXEC = `${FIBO_NS}OwnershipAndControl/Executives/`;
 const CMNS_ORG_NS = "https://www.omg.org/spec/Commons/Organizations/";
 const CMNS_ID_NS = "https://www.omg.org/spec/Commons/Identifiers/";
+const CMNS_TXT_NS = "https://www.omg.org/spec/Commons/TextDatatype/";
 
 /**
  * FIBO Business Entities classes and properties (design §3.1/§3.4). Every
@@ -82,17 +90,30 @@ export const FIBO = {
   EntityOwnership: `${BE_OWNERSHIP}EntityOwnership`,
   hasOwnedEntity: `${BE_OWNERSHIP}hasOwnedEntity`,
   hasOwningEntity: `${BE_OWNERSHIP}hasOwningEntity`,
+  // hasDirectOwnership: business -> its EntityOwnership situations. FIBO's
+  // own owl:inverseOf hasOwnedEntity (domain BusinessEntity/LegalEntity,
+  // range EntityOwnership) — the DIRECT term that replaces the previously
+  // minted kyb:hasOwnershipRecord.
+  hasDirectOwnership: `${BE_OWNERSHIP}hasDirectOwnership`,
   // BE/OwnershipAndControl/Executives
   CorporateOfficer: `${BE_EXEC}CorporateOfficer`,
   Signatory: `${BE_EXEC}Signatory`,
+  // hasCorporateOfficer: business (ControlledParty) -> CorporateOfficer.
+  // FIBO's own owl:inverseOf isOfficerOf — the DIRECT term that replaces the
+  // previously minted kyb:hasAuthorizedOfficer.
+  hasCorporateOfficer: `${BE_EXEC}hasCorporateOfficer`,
   hasSigningAuthorityFor: `${BE_EXEC}hasSigningAuthorityFor`,
   isOfficerOf: `${BE_EXEC}isOfficerOf`,
 } as const;
 
-/** OMG Commons — Organizations and Identifiers (imported by FIBO-BE, re-opened there). */
+/** OMG Commons — Organizations, Identifiers and TextDatatype (imported by FIBO-BE, re-opened there). */
 export const CMNS = {
   LegalPerson: `${CMNS_ORG_NS}LegalPerson`,
   isIdentifiedBy: `${CMNS_ID_NS}isIdentifiedBy`,
+  // The literal value of an identifier individual (cmns-dsg:hasTag and the
+  // FIBO LEI-code carriers are sub-properties of this). The LEI string hangs
+  // off the LegalEntityIdentifier node here, NOT as a schema:identifier.
+  hasTextValue: `${CMNS_TXT_NS}hasTextValue`,
 } as const;
 
 /** Prefix map for Turtle serialisation of the KYB resources. */
@@ -100,6 +121,7 @@ export const TURTLE_PREFIXES: Readonly<Record<string, string>> = {
   cred: CRED_NS,
   "cmns-id": CMNS_ID_NS,
   "cmns-org": CMNS_ORG_NS,
+  "cmns-txt": CMNS_TXT_NS,
   dpv: DPV_NS,
   "fibo-be-le-lei": BE_LEI,
   "fibo-be-le-lp": BE_LP,

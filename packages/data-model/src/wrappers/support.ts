@@ -9,7 +9,7 @@ import {
   TermWrapper,
 } from "@rdfjs/wrapper";
 import { isValidIso17442Checksum } from "../lei.ts";
-import { RDF_TYPE, SCHEMA } from "../vocab/external.ts";
+import { CMNS, RDF_TYPE, SCHEMA } from "../vocab/external.ts";
 import { KYB } from "../vocab/kyb.ts";
 
 /**
@@ -70,9 +70,14 @@ export class PostalAddress extends TypedNode {
  * question 3).
  */
 export class LegalEntityIdentifier extends TypedNode {
-  /** The ISO 17442 lexical form: 18 alphanumeric chars + 2-digit checksum. */
+  /**
+   * The ISO 17442 lexical form: 18 alphanumeric chars + 2-digit checksum.
+   * Carried by the OMG Commons text predicate `cmns-txt:hasTextValue` — the
+   * FIBO/Commons pattern for the literal value of an identifier individual —
+   * never a `schema:identifier` string annotation.
+   */
   get lei(): string {
-    return RequiredFrom.subjectPredicate(this, SCHEMA.identifier, LiteralAs.string);
+    return RequiredFrom.subjectPredicate(this, CMNS.hasTextValue, LiteralAs.string);
   }
   set lei(value: string) {
     if (!/^[0-9A-Z]{18}[0-9]{2}$/.test(value)) {
@@ -83,7 +88,7 @@ export class LegalEntityIdentifier extends TypedNode {
     if (!isValidIso17442Checksum(value)) {
       throw new RangeError(`lei fails its ISO 7064 MOD 97-10 checksum: ${value}`);
     }
-    RequiredAs.object(this, SCHEMA.identifier, value, LiteralFrom.string);
+    RequiredAs.object(this, CMNS.hasTextValue, value, LiteralFrom.string);
     RequiredAs.object(this, KYB.isIllustrativeLei, true, LiteralFrom.boolean);
   }
 
