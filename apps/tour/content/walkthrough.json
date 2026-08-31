@@ -1,0 +1,657 @@
+{
+  "anchors": [
+    {
+      "id": "aml-penalties",
+      "value": "$1.23B",
+      "label": "global AML/KYC/sanctions penalties in H1 2025 — up 417% year over year",
+      "detail": "Fenergo's H1-2025 regulatory-penalty tracker records $1.23B in AML/KYC/sanctions fines, a 417% year-over-year increase (North America alone up 565%).",
+      "source": {
+        "name": "Fenergo",
+        "url": "https://resources.fenergo.com/newsroom/regulatory-penalties-for-global-financial-institutions-skyrocket-417-in-h1-2025"
+      }
+    },
+    {
+      "id": "lost-clients",
+      "value": "70%",
+      "label": "of banks report losing business clients to slow onboarding",
+      "detail": "Fintech Global reports 70% of banks lose business clients to slow onboarding — the document-heavy KYB grind this demo dramatizes.",
+      "source": {
+        "name": "Fintech Global",
+        "url": "https://fintech.global/2025/10/08/70-of-banks-lose-clients-due-to-slow-onboarding/"
+      }
+    },
+    {
+      "id": "onboarding-speed",
+      "value": "5 days to under 24 hours",
+      "label": "KYB onboarding time cut by automated verification, a community-bank case study",
+      "detail": "iComply's community-bank case study documents small-business KYB onboarding cut from five days to under 24 hours through automated verification.",
+      "source": {
+        "name": "iComply",
+        "url": "https://icomplyis.com/smarter-kyb-for-u-s-community-banks-uncovering-risk-in-smb-accounts/"
+      }
+    },
+    {
+      "id": "ownership-threshold",
+      "value": "25%",
+      "label": "ownership that triggers mandatory beneficial-owner identification under the bank CDD Rule",
+      "detail": "31 CFR §1010.230 requires a covered financial institution to identify and verify each individual owning 25% or more of a legal-entity customer, plus one control person, at account opening.",
+      "source": {
+        "name": "eCFR, 31 CFR §1010.230",
+        "url": "https://www.ecfr.gov/current/title-31/subtitle-B/chapter-X/part-1010/subpart-C/section-1010.230"
+      }
+    },
+    {
+      "id": "cta-exemption",
+      "value": ">99%",
+      "label": "of previously-covered US domestic entities exempted from BOI reporting by FinCEN's March 2025 rule",
+      "detail": "FinCEN's March 2025 interim final rule removed beneficial-ownership reporting for US domestic companies, exempting over 99% of previously-covered entities — the bank's own CDD obligation is untouched.",
+      "source": {
+        "name": "FinCEN",
+        "url": "https://www.fincen.gov/news/news-releases/fincen-removes-beneficial-ownership-reporting-requirements-us-companies-and-us"
+      }
+    }
+  ],
+  "branding": {
+    "aboutHref": "/",
+    "bannedMarks": [
+      {
+        "pattern": "\\bFDIC\\b",
+        "reason": "Deposit-insurance marks and insured-status claims bind any person (12 U.S.C. § 1828(a)(4)) and must never render on a demo surface."
+      },
+      {
+        "pattern": "\\bfederal\\s+deposit\\s+insurance\\b",
+        "reason": "Deposit-insurance marks and insured-status claims bind any person (12 U.S.C. § 1828(a)(4)) and must never render on a demo surface."
+      },
+      {
+        "pattern": "\\bNMLS\\b",
+        "reason": "Licensing-registry identifiers (real or invented) read as licensure credentials and must never render on a demo surface."
+      },
+      {
+        "pattern": "(?:gleif|bank\\s+of\\s+america|fifth\\s+third|verizon|mastercard)[\\s'’]+(?:logo|logos|seal|seals|wordmark|wordmarks|insignia|badge|badges|brandmark|brandmarks|trade\\s+dress)",
+        "reason": "Organisation logos, seals, and wordmarks must never render — organisations are named only in role-first 'modelled on' text."
+      },
+      {
+        "pattern": "\\b(?:GLEIF|Global Legal Entity Identifier Foundation)[\\s'’]+(?:accredited|certified|approved)\\b",
+        "reason": "This demo's LEIs are illustrative and never GLEIF-issued or GLEIF-accredited — no copy may imply real accreditation."
+      }
+    ],
+    "convener": "EDMA Solid Community of Practice",
+    "description": "show how reusable organisational-identity and beneficial-ownership credentials could streamline US business KYB onboarding across banks",
+    "domainNegations": [
+      "Nothing here is an offer of banking services, credit, or a real KYB/CDD determination.",
+      "No real business is verified, no real LEI is issued, and no money moves."
+    ]
+  },
+  "chapters": [
+    {
+      "anchor": "GLEIF's vLEI is an organisation- and role-anchored credential (ISO 17442-3), currently in open pilot registration; FIBO's LEIEntities and Executives modules ground this scene's credential shapes, verified live 2026-07-22.",
+      "lead": "Northwind's vault starts empty. Three issuer flows write verifiable credentials into it — organisational identity, officer authorization, and beneficial ownership — issued once, reusable at every bank Northwind will ever approach.",
+      "scene": 1,
+      "slug": "fill-the-vault",
+      "steps": [
+        {
+          "body": "Northwind's pod holds nothing yet. The vault shows an empty credential shelf, a grants panel, and a consent-receipt ledger — every access any bank or registrar is ever given will be scoped, receipted, and revocable here.",
+          "title": "Open the business data vault",
+          "tryLive": {
+            "app": "vault",
+            "label": "Open the Business Data Vault"
+          }
+        },
+        {
+          "body": "The Formation & Identity Registrar's GLEIF-modelled flow issues an Organisational-Identity credential: an illustrative, ISO-17442-shaped LEI, entity legal form, and formal-organisation status — never a real GLEIF-issued identifier, plainly marked as such.",
+          "title": "Anchor the organisational identity",
+          "tryLive": {
+            "app": "issuers",
+            "label": "Issue the org-identity credential"
+          }
+        },
+        {
+          "body": "The same registrar issues an Officer-Authorization credential naming Jordan Blake as Managing Member and signatory — the OOR/ECR-analogue role concept GLEIF's vLEI itself uses, carried here as a plain W3C credential.",
+          "title": "Authorize the signing officer",
+          "tryLive": {
+            "app": "issuers",
+            "label": "Issue the officer credential"
+          }
+        },
+        {
+          "body": "An unbranded registry/FinCEN-BO-source-modelled flow issues a Beneficial-Ownership credential listing all four owners' basis-points stakes: Jordan 42%, Priya 28%, Marcus 18%, Dana 12% — summing to the whole cap table, dual-signed for the ZK commitment.",
+          "title": "Record beneficial ownership",
+          "tryLive": {
+            "app": "issuers",
+            "label": "Issue the beneficial-ownership credential"
+          }
+        }
+      ],
+      "title": "Fill the vault",
+      "underneath": [
+        "Each credential is a W3C Verifiable Credential 2.0, signed by its issuer, bound to Northwind's holder WebID, and written into the pod over an authenticated Solid write.",
+        "The Beneficial-Ownership credential is dual-signed at issuance: eddsa-rdfc-2022 for the disclosed record, Schnorr-over-Baby-JubJub for the zero-knowledge commitment scene 3 proves over.",
+        "vLEI (KERI/ACDC, ISO 17442-3) is GLEIF's own real product — this demo does not claim to be vLEI; on-screen copy states it as the product-phase upgrade path."
+      ],
+      "underneathRequired": true
+    },
+    {
+      "anchor": "The bank Customer Due Diligence Rule (31 CFR §1010.230) independently requires identifying each ≥25% owner and one control person at account opening; an automated KYB case study cut onboarding from five days to under 24 hours.",
+      "lead": "Business Banking Onboarding runs its full KYB/CDD check straight from the vault — no re-collection of formation documents, an EIN letter, or a cap table. Account opened the same day.",
+      "scene": 2,
+      "slug": "onboard-without-re-submitting",
+      "steps": [
+        {
+          "body": "Jordan grants Business Banking Onboarding scoped, time-boxed read access to the Organisational-Identity and Beneficial-Ownership credentials. A consent receipt lands in the vault's ledger before the bank reads a byte — the CDD Rule needs actual values, not a proof, so this read is disclosed.",
+          "title": "Grant the bank a scoped read",
+          "tryLive": {
+            "app": "bank-onboarding",
+            "label": "Start business banking onboarding"
+          }
+        },
+        {
+          "body": "The KYB check runs the CDD Rule's own test directly on issuer-signed data: entity legal form, LEI, and every owner at or above 25% — Jordan and Priya — plus Jordan as the control person. A Mastercard-modelled account-verification flow folds in to confirm the operating account.",
+          "title": "Run the KYB/CDD check",
+          "tryLive": {
+            "app": "bank-onboarding",
+            "label": "Watch the KYB check clear"
+          }
+        },
+        {
+          "body": "The contrast card is blunt: today's document-heavy KYB grind costs banks client relationships and takes days; this account opens the same session, reading data verified once at issuance instead of re-collected from Northwind's filing cabinet.",
+          "title": "Compare the old onboarding grind",
+          "tryLive": {
+            "app": "vault",
+            "label": "See the consent receipt"
+          }
+        }
+      ],
+      "title": "Onboard without re-submitting",
+      "underneath": [
+        "The bank's read is mediated by resolveAuthorizedPod — a guarded, authenticated fetch against Northwind's pod, never a raw unauthenticated request.",
+        "Every credential read writes a DPV-described consent receipt into the vault's ledger, scoped to exactly what was granted and for how long.",
+        "CDD needs the actual LEI, entity form, and owner percentages on file — this is why scene 2 reads disclosed credentials, not a zero-knowledge proof."
+      ],
+      "underneathRequired": true
+    },
+    {
+      "anchor": "The CDD Rule's 25% beneficial-owner threshold is the operand this scene's zero-knowledge proof runs over; the composed completeness circuit is research-grade and unaudited, disclosed honestly per decision 0012's mandatory posture.",
+      "lead": "Jordan applies for a credit line at the Business Credit Desk. A zero-knowledge proof shows no undisclosed owner clears 25% — without revealing the sub-threshold owners or anyone's exact percentage.",
+      "scene": 3,
+      "slug": "prove-ownership-without-exposing-the-cap-table",
+      "steps": [
+        {
+          "body": "The Business Credit Desk's pre-decision screen asks one predicate, not a cap table: does any undisclosed owner hold 25% or more? Northwind's vault answers with a live in-browser proof over each owner's hidden basis-points stake — true, and nothing else.",
+          "title": "Prove the per-owner threshold",
+          "tryLive": {
+            "app": "bank-credit",
+            "label": "Run the ownership threshold proof"
+          }
+        },
+        {
+          "body": "A second, precomputed proof verifies completeness: the full owner list was scanned and every owner above 25% is exactly the disclosed set — Jordan and Priya, no one hidden above threshold. The honesty panel marks this manifest research-grade and unaudited.",
+          "title": "Verify the completeness proof",
+          "tryLive": {
+            "app": "bank-credit",
+            "label": "Verify the completeness manifest"
+          }
+        },
+        {
+          "body": "The desk proceeds to a pre-qualified credit line. Jordan now grants full, disclosed credential access for the actual CDD record — the zero-knowledge screen only ever ran pre-decision, exactly as the Rule requires actual values once the bank commits.",
+          "title": "Grant disclosed access for the real CDD record",
+          "tryLive": {
+            "app": "vault",
+            "label": "Grant the second bank's read"
+          }
+        }
+      ],
+      "title": "Prove ownership without exposing the cap table",
+      "underneath": [
+        "Tier A is a live sparq UltraHonk proof over the per-owner ownershipPercentageBps ≥ 2500 predicate, holder-bound to Jordan's presenting WebID.",
+        "Tier B is a precomputed-offline, verified-live completeness manifest — the composed scan-plus-filter-plus-issuer-plus-revocation circuit is this demo's one genuinely novel proof and ships with a mandatory honesty panel.",
+        "An issuer-signed operand-anchor credential backs every Tier A statement; a bare filter proof without one is forgeable and never trusted."
+      ],
+      "underneathRequired": true
+    },
+    {
+      "anchor": "AML/KYC penalties reached $1.23B in H1 2025 (up 417% year over year) while 70% of banks report losing clients to slow onboarding — the reuse this scene dramatizes is the counterfactual to both.",
+      "lead": "A third relying party — Northwind's insurance renewal — pulls the same credentials from the vault with zero re-collection. Two banks and a renewal, one underlying set of credentials, never copied a third time.",
+      "scene": 4,
+      "slug": "reuse-not-re-collection",
+      "steps": [
+        {
+          "body": "The vault's grants panel shows both banks' access scoped to the very same Organisational-Identity and Beneficial-Ownership credentials issued back in scene 1 — no bank ever received its own private copy of Northwind's data.",
+          "title": "See both banks on one credential set",
+          "tryLive": {
+            "app": "vault",
+            "label": "Open the grants panel"
+          }
+        },
+        {
+          "body": "An unbranded third relying party — Northwind's insurance renewal — is narrated here rather than built as a live app: it would read the identical credentials through the same grant mechanism, with zero re-collection and zero new copies.",
+          "title": "Narrate the third relying party",
+          "tryLive": {
+            "app": "vault",
+            "label": "Read the reuse note"
+          }
+        },
+        {
+          "body": "The counterfactual: $1.23B in H1-2025 AML/KYC penalties, up 417% year over year, against 70% of banks losing clients to slow onboarding. Reuse is the architecture choice that avoids both, one credential set at a time.",
+          "title": "Read the counterfactual",
+          "tryLive": {
+            "app": "tour",
+            "label": "See the ecosystem map"
+          }
+        }
+      ],
+      "title": "Reuse, not re-collection"
+    },
+    {
+      "anchor": "The CDD Rule carries an ongoing-monitoring obligation; freshness here means re-issuing the credential and revoking the stale one via a Bitstring Status List entry, never a fabricated clock.",
+      "lead": "Marcus sells his 18% stake to Jordan. The Beneficial-Ownership credential is re-issued through the existing grants; both banks see the fresh ownership on their next read, and neither re-runs KYB from scratch.",
+      "scene": 5,
+      "slug": "nothing-goes-stale",
+      "steps": [
+        {
+          "body": "Marcus Webb's 18% stake sells to Jordan Blake, who now holds 60%. The vault records the ownership change and requests a fresh Beneficial-Ownership credential reflecting the new basis-points split across the remaining three owners.",
+          "title": "Record the ownership change",
+          "tryLive": {
+            "app": "vault",
+            "label": "Inspect the ownership change"
+          }
+        },
+        {
+          "body": "The Formation & Identity Registrar re-issues the Beneficial-Ownership credential with Jordan's new 60% stake, and the stale credential's Bitstring Status List entry flips to revoked — re-issue carries the fresh claims, revocation only ever retires the old one.",
+          "title": "Re-issue and revoke the stale credential",
+          "tryLive": {
+            "app": "issuers",
+            "label": "Re-issue the ownership credential"
+          }
+        },
+        {
+          "body": "Business Banking Onboarding and the Business Credit Desk both read the fresh ownership on their next scoped access through the grants already in place — neither bank re-runs its KYB check; the existing grant simply resolves to current data.",
+          "title": "Both banks see the fresh ownership",
+          "tryLive": {
+            "app": "bank-credit",
+            "label": "Read the fresh ownership"
+          }
+        }
+      ],
+      "title": "Nothing goes stale",
+      "underneath": [
+        "Re-issuance carries the same claims forward with fresh values and a fresh validity window — decision 0007's pattern, identical to how Demos 1 and 2 keep credentials current.",
+        "The stale credential's Bitstring Status List entry is set to revoked; the grant itself is untouched, so both banks' next read resolves the new credential automatically.",
+        "No backdated system clock is faked — the ownership change is seeded with real validFrom/validUntil windows, the same freshness trick the earlier showcases use."
+      ],
+      "underneathRequired": true
+    },
+    {
+      "anchor": "The CDD Rule is satisfied by a scoped, receipted regulator grant in this demo's Examiner View, never a real filing — an illustrative compliance lens, not a supervisory examination.",
+      "lead": "Jordan reads the consent-receipt ledger, revokes a bank's access, and the unbranded Examiner View shows the CDD Rule satisfied through receipted grants instead of paperwork.",
+      "scene": 6,
+      "slug": "control-audit-and-the-regulator-view",
+      "steps": [
+        {
+          "body": "The consent-receipt ledger lists every grant ever made: which bank, which registrar, what was read, and when — the complete, inspectable history of who has seen Northwind's credentials and under what scope.",
+          "title": "Read the consent-receipt ledger",
+          "tryLive": {
+            "app": "vault",
+            "label": "Open the consent ledger"
+          }
+        },
+        {
+          "body": "Jordan revokes Business Banking Onboarding's access after the relationship winds down. The grant simply stops resolving at the pod's access-control layer — no goodwill required, and the ledger records the revocation alongside every original grant.",
+          "title": "Revoke a bank's access",
+          "tryLive": {
+            "app": "vault",
+            "label": "Revoke the bank's grant"
+          }
+        },
+        {
+          "body": "The unbranded Examiner View reads a scoped, receipted regulator grant over the same ledger — the CDD Rule's beneficial-ownership identification obligation shown satisfied through inspectable grants, never a government filing.",
+          "title": "Open the Examiner View",
+          "tryLive": {
+            "app": "tour",
+            "label": "Open the Examiner View"
+          }
+        },
+        {
+          "body": "The closing beat: the next bank Northwind walks into needs nothing new. Organisational identity, officer authorization, and beneficial ownership already sit in the vault, reusable the moment a grant is made.",
+          "title": "The next bank is one grant away",
+          "tryLive": {
+            "app": "vault",
+            "label": "Back to the full vault"
+          }
+        }
+      ],
+      "title": "Control, audit, and the regulator view",
+      "underneath": [
+        "Grant and revoke both run over WAC access control plus a DPV-described consent receipt — an app-level ledger feature, not a protocol guarantee, per decision 0006.",
+        "The Examiner View is this demo's regulator seat: a mapped ecosystem role with no dedicated app, rendered inside the tour shell exactly as Demos 1 and 2 render their own compliance lenses.",
+        "Revocation stops future reads immediately; it never retroactively un-discloses what a bank already read under a valid grant."
+      ],
+      "underneathRequired": true
+    }
+  ],
+  "compliance": {
+    "title": "Examiner View",
+    "nonAffiliation": "Rendered deliberately unbranded: the public rules below are presented generically. This demonstration is not produced, reviewed, or endorsed by FinCEN, the Consumer Financial Protection Bureau, GLEIF, or any other regulator, standards body, or government agency.",
+    "checks": [
+      {
+        "id": "cdd-beneficial-ownership",
+        "rule": "A covered financial institution must identify and verify each individual owning 25% or more of a legal-entity customer, plus one control person, at account opening.",
+        "citation": "31 CFR § 1010.230(b)",
+        "citationUrl": "https://www.ecfr.gov/current/title-31/subtitle-B/chapter-X/part-1010/subpart-C/section-1010.230",
+        "scene": 2,
+        "chapterSlug": "onboard-without-re-submitting",
+        "observe": "The bank's KYB check reads the disclosed Organisational-Identity and Beneficial-Ownership credentials directly from the vault — the same 25% test the Rule requires, run on issuer-signed data instead of re-collected paperwork."
+      },
+      {
+        "id": "cta-status",
+        "rule": "The Corporate Transparency Act's beneficial-ownership reporting requirement for US domestic reporting companies was removed by a March 2025 interim final rule; this demo's pain point is the separate, still-active bank CDD Rule, not CTA/BOI filing.",
+        "citation": "Corporate Transparency Act interim final rule (Mar 2025), 31 CFR Chapter X",
+        "citationUrl": "https://www.fincen.gov/news/news-releases/fincen-removes-beneficial-ownership-reporting-requirements-us-companies-and-us",
+        "scene": 1,
+        "chapterSlug": "fill-the-vault",
+        "observe": "The credentials issued in scene 1 exist to satisfy the bank's own CDD obligation, not a CTA/BOI government filing — this demo makes no reporting-agency claim."
+      },
+      {
+        "id": "vlei-posture",
+        "rule": "GLEIF's Verifiable LEI (vLEI) is an organisation- and role-anchored credential ecosystem governed by ISO 17442-3, running on KERI/ACDC — distinct from the W3C VC 2.0 credentials this demo issues.",
+        "citation": "GLEIF, Introducing the Verifiable LEI (vLEI)",
+        "citationUrl": "https://www.gleif.org/en/organizational-identity/introducing-the-verifiable-lei-vlei",
+        "scene": 1,
+        "chapterSlug": "fill-the-vault",
+        "observe": "On-screen copy states plainly that vLEI is the product-phase upgrade path this demo does not claim to implement."
+      },
+      {
+        "id": "zk-scope",
+        "rule": "A zero-knowledge proof may support a pre-decision credit screen, but the bank's CDD Rule beneficial-ownership obligation requires the institution to obtain and retain the actual owner identities and percentages — a proof does not substitute for disclosure.",
+        "citation": "31 CFR § 1010.230(b)(2)",
+        "citationUrl": "https://www.ecfr.gov/current/title-31/subtitle-B/chapter-X/part-1010/subpart-C/section-1010.230",
+        "scene": 3,
+        "chapterSlug": "prove-ownership-without-exposing-the-cap-table",
+        "observe": "The ZK proof runs only at the Business Credit Desk's pre-decision screen; once the bank proceeds, Jordan grants full disclosed credential access for the actual CDD record."
+      },
+      {
+        "id": "cdd-per-relationship",
+        "rule": "The bank CDD Rule's beneficial-ownership identification obligation applies at each new banking relationship; FinCEN's 2026 exceptive relief narrows only same-bank repeat-account re-verification, not first-time verification at a different institution.",
+        "citation": "31 CFR § 1010.230; FinCEN exceptive relief (13 Feb 2026)",
+        "citationUrl": "https://www.mintz.com/insights-center/viewpoints/54751/2026-02-18-fincen-eases-beneficial-ownership-verification",
+        "scene": 4,
+        "chapterSlug": "reuse-not-re-collection",
+        "observe": "Northwind's same underlying credentials are read by a second bank and a third relying party without new paperwork — the reuse the exceptive relief does not itself reach, achieved instead by borrower-held, reusable credentials."
+      },
+      {
+        "id": "examiner-view-scope",
+        "rule": "Bank examiners assess a bank's CDD compliance program; this demo's Examiner View is an illustrative, unbranded compliance lens, not a real supervisory examination or filing.",
+        "citation": "31 CFR § 1010.230",
+        "citationUrl": "https://www.ecfr.gov/current/title-31/subtitle-B/chapter-X/part-1010/subpart-C/section-1010.230",
+        "scene": 6,
+        "chapterSlug": "control-audit-and-the-regulator-view",
+        "observe": "The lens reads the same receipted grant history Jordan controls — a scoped, revocable grant standing in for a filing, never an actual regulatory submission."
+      }
+    ]
+  },
+  "deploy": {
+    "envPrefix": "KYB",
+    "slug": "kyb"
+  },
+  "persona": {
+    "descriptor": "Fictional business owner — every value on this card is simulated; no real business, person, or LEI appears anywhere in this demo.",
+    "fields": [
+      {
+        "label": "Name",
+        "value": "Jordan Blake"
+      },
+      {
+        "label": "Identifier",
+        "note": "Issued by the seed script (seeds/persona.ts)",
+        "value": "JB-0001"
+      },
+      {
+        "copyable": false,
+        "label": "Role",
+        "value": "Managing Member and CEO of Northwind Logistics LLC, Kansas City MO — a fictional freight/logistics SMB opening business banking and a credit line"
+      },
+      {
+        "copyable": false,
+        "label": "Business",
+        "value": "Northwind Logistics LLC — LLC entity legal form, fictional freight/logistics SMB"
+      },
+      {
+        "copyable": false,
+        "label": "Ownership",
+        "value": "Jordan Blake 42% (4,200 bps); Priya Nandakumar (CFO) 28% (2,800 bps); Marcus Webb 18% (1,800 bps); Dana Reyes 12% (1,200 bps)"
+      },
+      {
+        "copyable": false,
+        "label": "LEI",
+        "value": "An illustrative, ISO-17442-shaped identifier (reserved 9999 LOU prefix) — never a real GLEIF-issued LEI"
+      },
+      {
+        "copyable": false,
+        "label": "Credentials",
+        "value": "Organisational-Identity, Officer-Authorization, and Beneficial-Ownership credentials, issued once into the vault"
+      },
+      {
+        "copyable": false,
+        "label": "Pod",
+        "value": "Provisioned by pnpm run seed"
+      }
+    ],
+    "footnote": "Values are pinned around the CDD Rule's 25% (2,500 bps) beneficial-owner threshold: Jordan and Priya sit above it, Marcus and Dana below — until Marcus sells his stake to Jordan in scene 5. Keep this card in sync with seeds/persona.ts.",
+    "name": "Jordan Blake"
+  },
+  "registry": {
+    "apps": {
+      "tour": {
+        "appName": "KYB Trust Tour",
+        "healthPath": "/api/health",
+        "modelledOn": "EDMA Solid Community of Practice",
+        "path": "/",
+        "slug": "tour",
+        "theme": {
+          "accent": "oklch(0.72 0.1 250)",
+          "hue": 250,
+          "primary": "oklch(0.42 0.08 250)",
+          "role": "walkthrough shell"
+        }
+      },
+      "vault": {
+        "appName": "Business Data Vault",
+        "healthPath": "/vault/api/health",
+        "honesty": {
+          "real": [
+            "Serves authenticated pod routes guarded by @jeswr/solid-pod-guard (fails closed until an operator configures it) for grant/revoke/ledger",
+            "Credential verify-on-view and the scene-3 ZK proofs run the real fail-closed vc-kit chain and a real sparq UltraHonk prover/verifier"
+          ],
+          "simulated": [
+            "Every credential, grant, receipt, and cap-table figure in this app is scripted demo content for a fictional business"
+          ]
+        },
+        "modelledOn": "Verizon",
+        "path": "/vault",
+        "podRoutes": [
+          "/api/pod/example",
+          "/api/grants",
+          "/api/grants/change",
+          "/api/ledger"
+        ],
+        "slug": "vault",
+        "theme": {
+          "accent": "oklch(0.72 0.11 250)",
+          "hue": 210,
+          "primary": "oklch(0.45 0.09 210)",
+          "role": "business data vault"
+        },
+        "zoneEnv": "KYB_VAULT_ZONE_URL"
+      },
+      "issuers": {
+        "appName": "Formation & Identity Registrar",
+        "healthPath": "/issuers/api/health",
+        "honesty": {
+          "real": [
+            "Serves an authenticated pod route guarded by @jeswr/solid-pod-guard (fails closed until an operator configures it)",
+            "Issues real W3C VC 2.0 credentials (eddsa-rdfc-2022) with real re-issue and Bitstring Status List revocation"
+          ],
+          "simulated": [
+            "Organisational-identity, officer-authorization, and beneficial-ownership credentials are issued from scripted demo data — no real LEI issuance and no real GLEIF vLEI (KERI/ACDC) or FinCEN BO-registry query occurs"
+          ]
+        },
+        "modelledOn": "GLEIF, and an unbranded business registry/FinCEN BO source",
+        "path": "/issuers",
+        "podRoutes": [
+          "/api/pod/example"
+        ],
+        "slug": "issuers",
+        "theme": {
+          "accent": "oklch(0.72 0.11 301)",
+          "hue": 300,
+          "primary": "oklch(0.45 0.09 300)",
+          "role": "organisational-identity, officer, and beneficial-ownership credential issuer"
+        },
+        "zoneEnv": "KYB_ISSUERS_ZONE_URL"
+      },
+      "bank-onboarding": {
+        "appName": "Business Banking Onboarding",
+        "healthPath": "/bank-onboarding/api/health",
+        "honesty": {
+          "real": [
+            "Serves an authenticated pod route guarded by @jeswr/solid-pod-guard (fails closed until an operator configures it)"
+          ],
+          "simulated": [
+            "The KYB/CDD check, the account-verification flow, and the contrast card are scripted demo logic — no real bank CDD system and no real account-verification API call occurs"
+          ]
+        },
+        "modelledOn": "Bank of America, with a Mastercard-modelled account-verification flow folded in",
+        "path": "/bank-onboarding",
+        "podRoutes": [
+          "/api/pod/example"
+        ],
+        "slug": "bank-onboarding",
+        "theme": {
+          "accent": "oklch(0.72 0.11 164)",
+          "hue": 130,
+          "primary": "oklch(0.45 0.09 130)",
+          "role": "business banking KYB relying party"
+        },
+        "zoneEnv": "KYB_BANK_ONBOARDING_ZONE_URL"
+      },
+      "bank-credit": {
+        "appName": "Business Credit Desk",
+        "healthPath": "/bank-credit/api/health",
+        "honesty": {
+          "real": [
+            "Serves an authenticated pod route guarded by @jeswr/solid-pod-guard (fails closed until an operator configures it)",
+            "The scene-3 pre-decision screen runs a real sparq UltraHonk Tier-A per-owner proof and a real Tier-B completeness-manifest verification"
+          ],
+          "simulated": [
+            "Credit-line underwriting and the ownership-change re-check are scripted demo logic — no credit is offered; the Tier-B completeness circuit is research-grade and unaudited"
+          ]
+        },
+        "modelledOn": "Fifth Third Bank",
+        "path": "/bank-credit",
+        "podRoutes": [
+          "/api/pod/example"
+        ],
+        "slug": "bank-credit",
+        "theme": {
+          "accent": "oklch(0.72 0.11 45)",
+          "hue": 20,
+          "primary": "oklch(0.45 0.09 20)",
+          "role": "beneficial-ownership ZK credit desk"
+        },
+        "zoneEnv": "KYB_BANK_CREDIT_ZONE_URL"
+      }
+    },
+    "center": "data-subject",
+    "launcherOrder": [
+      "tour",
+      "vault",
+      "issuers",
+      "bank-onboarding",
+      "bank-credit"
+    ],
+    "roles": [
+      {
+        "apps": [
+          "vault"
+        ],
+        "center": true,
+        "membership": "Northwind Logistics LLC — the business at the centre of the ecosystem",
+        "modelledOn": "Verizon",
+        "role": "business data vault",
+        "slug": "data-subject",
+        "summary": "Holds Northwind's organisational-identity, officer-authorization, and beneficial-ownership credentials in a pod only Jordan controls — every bank, registrar, and counterparty gets scoped, receipted, revocable access instead of a copy. The same vault seat carries across showcase verticals."
+      },
+      {
+        "apps": [
+          "issuers"
+        ],
+        "membership": "GLEIF: Member (internal role map, Jun 2026 — re-verify before outreach). Registry/BO source: external approach — no member organisation holds this seat today.",
+        "modelledOn": "GLEIF, and an unbranded business registry/FinCEN BO source",
+        "role": "organisational-identity, officer, and beneficial-ownership credential issuer",
+        "roleNumber": 1,
+        "scene": 1,
+        "slug": "issuers-seat",
+        "summary": "Issues the organisational-identity, officer-authorization, and beneficial-ownership credentials into the vault — verification happens once, at issuance, and is never re-collected per bank."
+      },
+      {
+        "apps": [
+          "bank-onboarding"
+        ],
+        "membership": "Member (internal role map, Jun 2026 — re-verify before outreach)",
+        "modelledOn": "Bank of America",
+        "role": "business banking KYB relying party",
+        "roleNumber": 2,
+        "scene": 2,
+        "slug": "bank-onboarding-seat",
+        "summary": "Runs the full KYB/CDD check by reading the disclosed org-identity and beneficial-ownership credentials directly from the vault — no re-collected formation documents, EIN letter, or cap table."
+      },
+      {
+        "apps": [],
+        "membership": "Member¹ (internal role map, Jun 2026 — re-verify before outreach)",
+        "modelledOn": "Mastercard (Open Banking)",
+        "role": "business account / cash-flow verification rail",
+        "scene": 2,
+        "slug": "open-finance",
+        "summary": "A mapped ecosystem-map seat folded in as a data flow inside Business Banking Onboarding rather than a dedicated app — the same honest 'mapped seat, no app' pattern this framework uses for roles without an interactive surface."
+      },
+      {
+        "apps": [
+          "bank-credit"
+        ],
+        "membership": "Member and Data Exchange Project founder (internal role map, Jun 2026 — re-verify before outreach)",
+        "modelledOn": "Fifth Third Bank",
+        "role": "beneficial-ownership ZK credit desk",
+        "roleNumber": 3,
+        "scene": 3,
+        "slug": "bank-credit-seat",
+        "summary": "Verifies the zero-knowledge beneficial-ownership proof at pre-decision, then reads the disclosed credentials for the real CDD record once the credit line proceeds; re-checks ownership on the scene-5 change without re-running KYB."
+      },
+      {
+        "apps": [],
+        "membership": "— (no member organisation holds this seat)",
+        "modelledOn": "unbranded 'Examiner View'",
+        "role": "compliance lens over the bank CDD Rule",
+        "scene": 6,
+        "slug": "regulator",
+        "summary": "A mapped ecosystem-map seat with no dedicated app — the Examiner View lives inside the tour shell, showing the CDD Rule satisfied via a scoped, receipted regulator grant instead of a filing."
+      },
+      {
+        "apps": [],
+        "membership": "EDMA/OMG: itself. GLEIF: itself.",
+        "modelledOn": "EDMA/OMG (FIBO Business Entities) and GLEIF (LEI)",
+        "role": "data / standards steward",
+        "slug": "standards",
+        "summary": "Grounds every credential shape in this demo: FIBO Business Entities for the legal-entity and ownership vocabulary, GLEIF's LEI and ISO 17442/20275 for the identity anchor — present across every scene, with no app of its own."
+      }
+    ]
+  },
+  "site": {
+    "appName": "KYB Trust Tour",
+    "exploreCtaLabel": "Explore the ecosystem",
+    "heroLead": "A business proves who it is and who controls it once, holds that proof in a vault it controls, and reuses it at every bank that needs it — no re-submitted formation documents, EIN letters, or cap tables.",
+    "heroParagraph": "Follow Jordan Blake, Managing Member of the fictional Northwind Logistics LLC, through business banking onboarding and a credit line rebuilt on personal data stores: organisational-identity, officer, and beneficial-ownership credentials issued once into a vault Northwind controls, a zero-knowledge proof that no undisclosed owner clears 25% before the cap table is ever disclosed, reuse across a second bank and a third relying party with zero re-collection, ownership changes that re-issue instead of re-verify from scratch, and a consent-receipt ledger Jordan can read, revoke, and show an examiner.",
+    "heroTitle": "Prove who controls a business once — reuse it at every bank",
+    "organization": "EDMA Solid Community of Practice",
+    "startCtaLabel": "Start the walkthrough"
+  },
+  "version": 1
+}
