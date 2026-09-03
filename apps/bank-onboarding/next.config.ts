@@ -7,6 +7,16 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
   basePath: "/bank-onboarding",
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/bank-onboarding",
+        permanent: false,
+        basePath: false,
+      },
+    ];
+  },
   // `@kyb/vc-kit`'s seed-tooling native bridge (`seed-tooling/native.ts`)
   // locates its helper directory via `new URL("../../scripts/sparq-helper",
   // import.meta.url)` — a Node-only, `SPARQ_CHECKOUT`-gated code path that

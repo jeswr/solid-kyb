@@ -10,6 +10,16 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
   basePath: "/bank-credit",
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/bank-credit",
+        permanent: false,
+        basePath: false,
+      },
+    ];
+  },
   // `@kyb/vc-kit`'s seed-tooling native bridge is Node-only and cannot be
   // statically bundled by Turbopack/webpack (same reason `issuers` keeps it
   // external) — this app never touches that bridge, but the package's entry
