@@ -26,15 +26,6 @@ const ALLOWLIST = [
   "https://turborepo.dev/schema.json", // turbo.json $schema
   "https://biomejs.dev/schemas/", // biome.json $schema
   "https://json.schemastore.org/", // tsconfig $schema
-  // TEMPORARY, tracked gap (docs/research/kyb-demo-design.md §3.5, decision-0010
-  // pattern): the solid-kyb-vocab Vercel project has not been deployed yet — this
-  // sandboxed environment had no Vercel account access when packages/data-model
-  // was authored. The vocab/kyb.ttl namespace is the INTENDED real, permanent
-  // hash namespace (mirrors the already-live solid-mortgage-vocab.vercel.app);
-  // remove this entry the moment the project is deployed and re-run lint:iris to
-  // confirm it resolves for real. No `kyb:` IRI may ship to a LIVE app surface
-  // before that happens (the hard rule).
-  "https://solid-kyb-vocab.vercel.app/",
 ];
 
 const CACHE_PATH = ".cache/lint-iris.json";

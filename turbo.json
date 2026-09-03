@@ -3,6 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["KYB_*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "typecheck": {},

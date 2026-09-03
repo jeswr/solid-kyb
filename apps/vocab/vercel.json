@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "pnpm --dir ../.. exec turbo run build --filter=@kyb/vocab",
+  "ignoreCommand": "npx turbo-ignore --fallback=HEAD^1"
+}

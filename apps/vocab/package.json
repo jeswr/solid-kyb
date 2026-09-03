@@ -1,0 +1,29 @@
+{
+  "name": "@kyb/vocab",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate.mjs && next build",
+    "lint": "biome check app lib scripts test package.json tsconfig.json next.config.mjs",
+    "test": "vitest run",
+    "typecheck": "node scripts/generate.mjs && tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "negotiator": "^1.0.0",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.4",
+    "@jeswr/rdf-serialize": "^0.1.0",
+    "@types/node": "^25.9.2",
+    "@types/negotiator": "^0.6.4",
+    "@types/react": "^19.2.17",
+    "jsonld": "^9.0.0",
+    "n3": "^2.1.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
