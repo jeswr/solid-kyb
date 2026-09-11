@@ -20,6 +20,6 @@
     "@rdfjs/types": "^2.0.1",
     "@types/node": "^25.9.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.11"
   }
 }
